@@ -6,47 +6,13 @@
   <script src="jquery-3.3.1.min.js"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
   <script language="javascript" src="foerderrechner.js"></script>
+  <script language="javascript" src="TabellenDaten.js"></script>
 
 </head>
 <body>
 <form name="formcalcbafa">
-
-  
-  <table id="tableThermischeSpeicher" class="tableAnlage" style="display: table">
-    <colgroup>
-      <col width=5%>
-      <col width=75%>
-      <col width=20%>
-    </colgroup>
-
-    <thead  style="display: none">
-      <tr>
-        <th>Nr.</th>
-        <th>Auswahl Thermische Speicher für Wärme und Kälte</th>
-        <th></th>
-      </tr>
-    </thead>
-    
-    <tfoot>
-      <tr>
-        <td colspan="3">
-          <select id="select.thermischeSpeicher" name="select.thermischeSpeicher" onchange="if (this.selectedIndex) add_row(this);">
-            <option value="">--- Thermische Speicher hinzufügen ---</option>
-            <option value="WARMWASSER_SCHICHTENSPEICHER">Warmwasser-Schichtenspeicher</option>
-            <option value="KALTWASSERSPEICHER">Kaltwasserspeicher</option>
-            <option value="EISSPEICHER_IM_BETONGEHAEUSE">Eisspeicher: Betongehäuse mit Wärmeübertrager</option>
-            <option value="BEHAELTER_MIT_LWS_KAPSEL">Latentwärmespeicher-Systeme: Behälter mit LWS (Kapsel)</option>
-          </select>
-        </td>
-      </tr>
-   </tfoot>
-        
-    <tbody>
-    </tbody>
-    
-  </table>
-  <table id="TableKomponentenSysteme" class="tableAnlage" style="display: none">
-  </table>
+  <table id="TableKomponentenSysteme"></table>
+  <table id="TableThermischeSpeicher"></table>
   <input type="submit" value="hau rein" id="submitbuttom">
 </form>
 </body>
