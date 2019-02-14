@@ -207,7 +207,6 @@ var TableKomponentenSysteme =   {   name:       "Komponenten und Systeme",
 var TableThermischeSpeicher =  {    name:       "Thermische Speicher für Wärme und Kälte",
                                     hilfe:      "Geben Sie hier bitte die Leistung oder das Volumen der thermischen Speicher an, die gefördert werden sollen.",
                                     artikel:    [
-                        
                                                     [
                                                         "Warmwasser-Schichtenspeicher",
                                                         [   
@@ -246,7 +245,7 @@ var TableThermischeSpeicher =  {    name:       "Thermische Speicher für Wärme
                                                         "Latentwärmespeicher-Systeme: Behälter mit LWS (Kapsel)",
                                                         [   
                                                             [
-                                                                " Kapazität:", 
+                                                                "Kapazität:", 
                                                                 "kWh (Q̇₀ = 60,00 bis 1400,00 kWh)", 
                                                                 "7", 
                                                             ],
@@ -255,3 +254,238 @@ var TableThermischeSpeicher =  {    name:       "Thermische Speicher für Wärme
                     
                                                 ]
                                 };
+
+
+
+
+var BlockAnlage =               {   name: "Art der Anlage (Kälteerzeuger)",
+                                    hilfe: "Geben Sie hier die Art des Kälteerzeugers an. Beachten Sie dabei bitte die Definitionen für verbundene Kälteerzeuger im Merkblatt Fachtechnik (siehe www.bafa.de) sowie die technischen Fördervoraussetzungen gemäß Ziffer 2.4.1 f der Förderrichtlinie.",
+                                    text: "Bei der <strong> neuen Anlage </strong> handelt es sich um:",
+                                    artikel:    [
+                                                    [
+                                                        "Flüssigkeitskühlsätze mit Kältemitteln der Sicherheitsklasse A3 (z.B. R-290, R-1270, R-600a)",
+                                                        [
+                                                            "Normalkühlung",
+                                                            [
+                                                                "Anlagen, flüssigkeitsgekühlt",
+                                                                [
+                                                                    "Leistungsaufnahme der Verdichter:",
+                                                                    "kW (P = 2,00 bis 300,00 kW) Bitte geben Sie einen Wert an.",
+                                                                    "6",
+                                                                    "Geben Sie bitte die elektrische Leistungsaufnahme der Verdichter / Kältemaschine bzw. Verbundanlage an, die zur Abdeckung des Kältebedarfs benötigt wird. Bei Flüssigkeitskühlsätzenmuss dieser Wert innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+                                                            ],
+
+
+                                                            [
+                                                                "Anlagen, luftgekühlt",
+                                                                [
+                                                                    "Leistungsaufnahme der Verdichter:",
+                                                                    "kW (P = 2,00 bis 300,00 kW) Bitte geben Sie einen Wert an.",
+                                                                    "6",
+                                                                    "Geben Sie bitte die elektrische Leistungsaufnahme der Verdichter / Kältemaschine bzw. Verbundanlage an, die zur Abdeckung des Kältebedarfs benötigt wird. Bei Flüssigkeitskühlsätzenmuss dieser Wert innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+
+
+                                                            ],
+
+                                                            [
+                                                                "Kombinierte Kompakt-Anlagen, flüssigkeitsgekühlt, mehrere Kältemittelkreisläufe,mit höchstens 80 g Kältemittel pro kW Kälteleistung",
+                                                                [
+                                                                    "Kälteleistung der Verdampfer:",
+                                                                    "kW (Q̇₀ = 50,00 bis 300,00 kW)",
+                                                                    "6",
+                                                                    "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+
+
+                                                            ],
+
+                                                            [
+                                                                "Kompakt-Anlagen, flüssigkeitsgekühlt, ein Kältemittelkreislauf, mit höchstens 80 g Kältemittel pro kW Kälteleistung",
+                                                                [
+                                                                    "Kälteleistung der Verdampfer:",
+                                                                    "kW (Q̇₀ = 7,00 bis 45,00 kW)",
+                                                                    "5",
+                                                                    "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+                                                            ],
+
+                                                        ],
+
+                                                        [
+                                                            "Klima- und Prozesskälteanlagen",
+                                                            [
+                                                                "Anlagen, flüssigkeitsgekühlt",
+                                                                [
+                                                                    "Leistungsaufnahme der Verdichter:",
+                                                                    "kW (P = 2,00 bis 300,00 kW) Bitte geben Sie einen Wert an.",
+                                                                    "6",
+                                                                    "Geben Sie bitte die elektrische Leistungsaufnahme der Verdichter / Kältemaschine bzw. Verbundanlage an, die zur Abdeckung des Kältebedarfs benötigt wird. Bei Flüssigkeitskühlsätzenmuss dieser Wert innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+                                                            ],
+
+                                                            [
+                                                                "Anlagen, luftgekühlt",
+                                                                [
+                                                                    "Leistungsaufnahme der Verdichter:",
+                                                                    "kW (P = 2,00 bis 300,00 kW) Bitte geben Sie einen Wert an.",
+                                                                    "6",
+                                                                    "Geben Sie bitte die elektrische Leistungsaufnahme der Verdichter / Kältemaschine bzw. Verbundanlage an, die zur Abdeckung des Kältebedarfs benötigt wird. Bei Flüssigkeitskühlsätzenmuss dieser Wert innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+
+                                                            ],
+
+                                                            [
+                                                                "Kombinierte Kompakt-Anlagen, flüssigkeitsgekühlt, mehrere Kältemittelkreisläufe,mit höchstens 80 g Kältemittel pro kW Kälteleistung",
+                                                                [
+                                                                    "Kälteleistung der Verdampfer:",
+                                                                    "kW (Q̇₀ = 50,00 bis 300,00 kW)",
+                                                                    "6",
+                                                                    "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+                                                            ],
+
+                                                            [
+                                                                "Kompakt-Anlagen, flüssigkeitsgekühlt, ein Kältemittelkreislauf, mit höchstens 80 g Kältemittel pro kW Kälteleistung",
+                                                                [
+                                                                    "Kälteleistung der Verdampfer:",
+                                                                    "kW (Q̇₀ = 7,00 bis 45,00 kW)",
+                                                                    "5",
+                                                                    "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                                ],
+
+                                                                [
+                                                                    "Kälteleistung:",
+                                                                    "kW",
+                                                                    "7",
+                                                                    "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+
+                                                    [
+                                                        "Sonstige stationäre Kälteerzeuger ",
+                                                        [   
+                                                            "Ab- und Adsorptionsanlagen",
+                                                            [
+                                                                "Kälteleistung der Verdampfer:",
+                                                                "kW (Q̇₀ = 5,00 bis 600,00 kW)",
+                                                                "6",
+                                                                "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                            ],
+
+                                                            [
+                                                                "Kälteleistung:",
+                                                                "kW",
+                                                                "7",
+                                                                "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                            ],
+
+                                                        ],
+
+                                                        [
+                                                            "Adiabate Verdunstungskühlanlagen",
+                                                            [
+                                                                "Kälteleistung der Verdampfer:",
+                                                                "kW (Q̇₀ = 10,00 bis 240,00 kW)",
+                                                                "6",
+                                                                "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                            ],
+
+                                                            [
+                                                                "Kälteleistung:",
+                                                                "kW",
+                                                                "7",
+                                                                "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                            ],
+                                                        ],
+
+                                
+                                                        [
+                                                            "Booster-Gewerbekälteanlagen mit R-744",
+                                                            [
+                                                                "Kälteleistung der Verdampfer:",
+                                                                "kW (Q̇₀ = 30,00 bis 400,00 kW)",
+                                                                "6",
+                                                                "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                            ],
+
+                                                            [
+                                                                "Kälteleistung:",
+                                                                "kW",
+                                                                "7",
+                                                                "Geben Sie bitte die zu Installierende Kälteleistung der Kältemaschine bzw. Verbundanlage (Kälteerzeuger) an, die zur Abdeckung des Kältebedarfs benötigt wird. Die Kälteleistung ist außer bei Booster Supermarktkälteanlagenmit R-744 maßgeblich für die Berechnung des Förderbetrags für den/die Kälteerzeuger. Beachten Sie die Hinweise zur Berechnung der Kälteleistung im Merkblatt Fachtechnik auf www.bafa.de.",
+                                                            ],
+                                                        ],
+
+                                                        [
+                                                            "Booster-Supermarktanlagen mit R-744",
+                                                            [
+                                                                "Kälteleistung der Verdampfer:",
+                                                                "kW (Q̇₀ = 30,00 bis 400,00 kW)",
+                                                                "6",
+                                                                "Geben Sie den Wärmestrom an, der den zu kühlenden Produkten entzogen wird, zuzüglich aller auftretenden Verluste. Die Dimensionierung der Verdampferleistung erfolgt nach dem Kältebedarf. Die Verdampferleistung muss innerhalb der hinter dem Eingabefeld ausgewiesenen Leistungsgrenzen liegen.",
+                                                            ],
+
+                                                            [
+                                                                "Länge der Kühlmöbel:",
+                                                                " lfdm",
+                                                                "7",
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+
+
+}
