@@ -57,7 +57,7 @@ function init_table (table) {
     }
 
     let td = document.createElement('td');
-    td.colspan = 3;
+    td.setAttribute('colspan', 3);
     td.appendChild(select);
 
     let tr = document.createElement('tr');
@@ -92,11 +92,20 @@ function init_table (table) {
     let trhead = document.createElement('tr');
     
     let th1 = document.createElement('th');
+
+
+
     let textnr1 = document.createTextNode ('Nr');
     th1.appendChild(textnr1);
     trhead.appendChild(th1);
 
     th2 = document.createElement('th');
+    
+
+    if (Table.hilfe) { // Ist Hilfetext vorhanden Tooltipp erstellen
+        init_help (th2, table.id, Table.hilfe);
+    }
+
     let textnr2 = document.createTextNode (Table.name);
     th2.appendChild(textnr2);
     trhead.appendChild(th2);
@@ -119,6 +128,7 @@ function init_table (table) {
     // text = document.createTextNode(Table.name);
     // label.appendChild(text);
     // fieldtable.appendChild(label);
+    // -> Helptext!
 
     let newplace = table_dom.parentNode;
     let clone = table_dom.cloneNode(true);
@@ -132,7 +142,6 @@ function init_table (table) {
 
 // Tabellen Spalten nummerieren
 function num_table_rows(tableRows) {
-
     for(let i = 0; i < tableRows.length; i++) {
         tableRows[i].getElementsByTagName('td')[0].innerHTML = (i+1);
     }
@@ -197,7 +206,6 @@ function add_row(entry) {
             let inputcheck = document.createElement('input');
             inputcheck.type = "checkbox";
             inputcheck.className = "inputcheck";
-            //debugger;
             inputcheck.name = cleartext(TableAdd.option[0]);
             inputcheck.value = true;
             
@@ -255,58 +263,8 @@ function add_row(entry) {
 
             if (SelInV == cleartext(TableAdd.artikel[a][0])) {
 
-                let getitfrom = TableAdd.artikel[a][0];
-                //inseret_fields (colIn, getitfrom);
-                // Variablen Initialisieren
-                let textunit; let textdes; let maxlength; let helptext; let newDes; let desOut; let text; let newIn; let inIn; let inOut;
-
-                for (let p = 0; p < TableAdd.artikel[a][1].length; p++) {        // Schleife je Feld
-
-                    textunit = TableAdd.artikel[a][1][p][0];
-                    textdes = TableAdd.artikel[a][1][p][1];
-                    maxlength =  TableAdd.artikel[a][1][p][2];
-                    helptext =  TableAdd.artikel[a][1][p][3];
-    
-                    // Beschreibung vorne
-                    newDes = document.createElement('div');         // Textfeld fuer Beschreibung erstellen
-                    newDes.className = 'label';
-                    desOut = document.createElement('output');      // Ausgabefeld erstellen
-                    if (helptext) {
-                        desOut.className = 'tooltip';
-                        var id = Math.floor(Math.random() * 1000000000); 
-                        desOut.setAttribute('onClick', 'create_tooltip(\'' + table_dom_Add.id + id + '\');');
-                        let helpspan = document.createElement('span');
-                        helpspan.className = 'tooltiptext';
-                        helpspan.id = table_dom_Add.id + id;
-                        text = document.createTextNode(helptext);
-                        helpspan.appendChild(text);
-                        desOut.appendChild(helpspan);
-                    }
-                    text = document.createTextNode(textunit);
-                    desOut.appendChild(text);                       // Text in Ausgabe einfuegen
-                    newDes.appendChild(desOut);                     // Ausgabe in Beschreibungstext einfuegen
-
-                    colIn.appendChild(newDes);                      // Beschreibungstext in Inputspalte
-            
-                    // Eingabe
-                    newIn = document.createElement('div');          // Textfeld fuer Eingabe erstellen
-                    newIn.className = "feld";
-                    inIn = document.createElement('input');         // Eingabefeld erstellen
-                    inIn.maxlength = maxlength;
-                    inIn.className = "inputKleinnumericOnly";
-                    inIn.type = 'text';
-                    inIn.name = 'textfeldname[]';
-                    newIn.appendChild(inIn);                        // Neues Eingabefeld anhaengen
-            
-
-                    // Beschreibung hinten
-                    inOut = document.createElement('output');        // Ausgabefeld erstellen
-                    text = document.createTextNode(textdes);
-                    inOut.appendChild(text);                        // Text in Ausgabe einfuegem
-                    newIn.appendChild(inOut);                       // Ausgabe in Beschreibungstext einfuegen
-                    colIn.appendChild(newIn);                       // Eingabefeld in Inputspalte einfuegen
-                    
-                }
+            let getitfrom = TableAdd.artikel[a];
+            inseret_fields (colIn, getitfrom, table_dom_Add.id);
             newRow.appendChild(colIn);                      // Inputspalte in Tabelleneintrag einfeugen
             }
         }
@@ -325,7 +283,6 @@ function add_row(entry) {
     newRow.appendChild(colDel);          // Loeschpalte in Tabelleneintrag einfeugen
     tableBody.appendChild(newRow);      // Tabelleneintrag in tbody einfeugen
 
-
     entry.selectedIndex = 0;            // Auswahlliste auf ersten Eintrag setzen
 
     }
@@ -335,6 +292,7 @@ function create_tooltip (id) {
     let tooltip = document.getElementById(id);
     tooltip.classList.toggle("show");
 }
+
 
 
 function create_block () {
@@ -347,6 +305,7 @@ function create_block () {
     }
 }
 
+
 // Block erstellen
 function init_block (block) {                            
     let Block = this[block.id];                             // Blockid auf Objekt referenzieren
@@ -355,7 +314,12 @@ function init_block (block) {
     block_dom.className = "fieldblock";
 
     // Beschriftung
-    let label_block = document.createElement('label')
+    let label_block = document.createElement('legend');
+
+    if (Block.hilfe) { // Ist Hilfetext vorhanden Tooltipp erstellen
+         init_help (label_block, block.id, Block.hilfe);
+    }
+
     text = document.createTextNode(Block.name);
     label_block.appendChild(text);
     block_dom.appendChild(label_block);
@@ -374,17 +338,25 @@ function init_block (block) {
         option.className = "inputCheck";
         option.id = block.id +"select1";
         option.value = i+1;
+        console.log('Step 1 '+ 1);
         option.onclick = function() {lev2_block(block.id, Block.artikel[i], 1) };
+
         label_option = document.createElement('label');
-        label_option.innerHTML = Block.artikel[i][0]+"</br>";
-        label_option.appendChild(option);
-        block_text.appendChild(label_option);
+        label_option.setAttribute('for', block.id +"select1");
+        label_option.innerHTML = Block.artikel[i][0];
+        let div = document.createElement('p');
+        div.appendChild(option);
+        div.appendChild(label_option);
+
+        block_text.appendChild(div);
     ;}
 
     block_dom.appendChild(block_text);
 
 };
 
+
+// Zwischenblock(s) einfuegen
 function lev2_block (blockid, place, firstrun) {
     if (firstrun) {
         var num3 = 2;
@@ -392,98 +364,72 @@ function lev2_block (blockid, place, firstrun) {
         var num3 = 3;
     }
     let block_text = document.createElement('div');
-    block_text.className = "haupttext";
+    block_text.className = 'haupttext';
     let next_lev = $.isArray(place[1][1][1]);
     for (let i = 1; i < place.length; i++) {
         option = document.createElement('input');
-        option.type = "radio";
-        option.name = "block_radio" + num3;
-        option.className = "inputCheck";
-        option.id = blockid +"select" + num3;
+        option.type = 'radio';
+        option.name = 'block_radio' + num3;
+        option.className = 'inputCheck';
+        option.id = blockid + 'select' + num3;
         option.value = i + 1;
-        if (!next_lev) option.onclick = function() { lev3_block(blockid, place[i]) };
+        console.log('Step 2 '+num3);
+        if (!next_lev) option.onclick = function() { lev3_block(blockid, place[i], num3 + 1)};
         else option.onclick = function() { lev2_block(blockid, place[i]) };
+
         let label_option = document.createElement('label');
-        label_option.innerHTML = place[i][0]+"</br>";
-        label_option.appendChild(option);
-        block_text.appendChild(label_option);
+        label_option.setAttribute('for', blockid + 'select' + num3);
+        label_option.innerHTML = place[i][0];
+        let div = document.createElement('p');
+        div.appendChild(option);
+        div.appendChild(label_option);
+
+        block_text.appendChild(div);
     };
+    console.log(block_text.firstChild);
+    console.log(block_text.firstChild.firstChild);
+    block_text.insertBefore(document.createElement('hr'), block_text.firstChild);
     add_block (blockid, block_text, num3);
 };
 
 
-function lev3_block (blockid, place) {
+// Abschlussblock
+function lev3_block (blockid, place, max) { 
     let block_text = document.createElement('div');
-    block_text.className = "haupttext";
-    for (let p = 1; p < place.length; p++) {        // Schleife je Feld
-
-        textunit = place[p][0];
-        textdes = place[p][1];
-        maxlength = place[p][2];
-        helptext = place[p][3];
-
-        
-        // Beschreibung vorne
-        newDes = document.createElement('span');         // Textfeld fuer Beschreibung erstellen
-        newDes.className = 'label';
-        desOut = document.createElement('output');      // Ausgabefeld erstellen
-        if (helptext) {
-            desOut.className = 'tooltip';
-            var id = Math.floor(Math.random() * 1000000000); 
-            desOut.setAttribute('onClick', 'create_tooltip(\'' + blockid + id + '\');');
-            let helpspan = document.createElement('span');
-            helpspan.className = 'tooltiptext';
-            helpspan.id = blockid + id;
-            text = document.createTextNode(helptext);
-            helpspan.appendChild(text);
-            desOut.appendChild(helpspan);
-        }
-        text = document.createTextNode(textunit);
-        desOut.appendChild(text);                       // Text in Ausgabe einfuegen
-        newDes.appendChild(desOut);                     // Ausgabe in Beschreibungstext einfuegen
-
-        block_text.appendChild(newDes);                 // Beschreibungstext in Inputspalte
-
-        // Eingabe
-        newIn = document.createElement('span');          // Textfeld fuer Eingabe erstellen
-        newIn.className = "feld";
-        inIn = document.createElement('input');         // Eingabefeld erstellen
-        inIn.maxlength = maxlength;
-        inIn.className = "inputKleinnumericOnly";
-        inIn.type = 'text';
-        inIn.name = 'textfeldname[]';
-        newIn.appendChild(inIn);                        // Neues Eingabefeld anhaengen
-
-
-        // Beschreibung hinten
-        inOut = document.createElement('output');        // Ausgabefeld erstellen
-        text = document.createTextNode(textdes);
-        inOut.appendChild(text);                        // Text in Ausgabe einfuegem
-        newIn.appendChild(inOut);                       // Ausgabe in Beschreibungstext einfuegen
-        block_text.appendChild(newIn);                  // Eingabefeld in Inputspalte einfuegen
-    }
-    add_block (blockid, block_text, 4);
+    block_text.className = 'haupttext';
+    inseret_fields (block_text, place, blockid);
+    block_text.insertBefore(document.createElement('hr'), block_text.firstChild);
+    add_block (blockid, block_text, max);
 }
 
+
+// Neu erstellen Block einfuegen und alte Blocks gegebenfalls loeschen
 function add_block (blockid, new_block, max) {
     let block_dom = document.getElementById(blockid);
     let blocks = block_dom.getElementsByTagName('div').length;
+    console.log('blocks '+blocks);
+    console.log('max '+max);
     if (blocks > max) {
-        for (let s = 2; s < blocks; s++) {
+        for (let s = max; s < blocks; s++) {
+            console.log('kill');
             block_dom.removeChild(block_dom.lastChild);
         };
     };
     if (blocks >= max) {
+        //debugger;
+        console.log('yes');
         let replace = block_dom.lastChild;
         block_dom.replaceChild(new_block, replace);
     } else block_dom.appendChild(new_block);
 };
 
-function inseret_fields (inseretin, getitfrom) {
+
+// Felder einfuegen
+function inseret_fields (inseretin, getitfrom, id_from) {
     // Variablen Initialisieren
     let textunit; let textdes; let maxlength; let helptext; let newDes; let desOut; let text; let newIn; let inIn; let inOut;
 
-    for (let p = 1; p < getitfrom; p++) {        // Schleife je Feld
+    for (let p = 1; p < getitfrom.length; p++) {        // Schleife je Feld
 
         textunit = getitfrom[p][0];
         textdes = getitfrom[p][1];
@@ -491,20 +437,14 @@ function inseret_fields (inseretin, getitfrom) {
         helptext = getitfrom[p][3];    
 
         // Beschreibung vorne
-        newDes = document.createElement('div');         // Textfeld fuer Beschreibung erstellen
+        newDes = document.createElement('p');         // Textfeld fuer Beschreibung erstellen
         newDes.className = 'label';
         desOut = document.createElement('output');      // Ausgabefeld erstellen
-        if (helptext) {
-            desOut.className = 'tooltip';
-            var id = Math.floor(Math.random() * 1000000000); 
-            desOut.setAttribute('onClick', 'create_tooltip(\'' + table_dom_Add.id + id + '\');');
-            let helpspan = document.createElement('span');
-            helpspan.className = 'tooltiptext';
-            helpspan.id = table_dom_Add.id + id;
-            text = document.createTextNode(helptext);
-            helpspan.appendChild(text);
-            desOut.appendChild(helpspan);
+
+        if (helptext) { // Ist Hilfetext vorhanden Tooltipp erstellen
+            init_help (desOut, id_from, helptext);
         }
+
         text = document.createTextNode(textunit);
         desOut.appendChild(text);                       // Text in Ausgabe einfuegen
         newDes.appendChild(desOut);                     // Ausgabe in Beschreibungstext einfuegen
@@ -512,11 +452,11 @@ function inseret_fields (inseretin, getitfrom) {
         inseretin.appendChild(newDes);                      // Beschreibungstext in Inputspalte
 
         // Eingabe
-        newIn = document.createElement('div');          // Textfeld fuer Eingabe erstellen
+        newIn = document.createElement('p');          // Textfeld fuer Eingabe erstellen
         newIn.className = "feld";
         inIn = document.createElement('input');         // Eingabefeld erstellen
         inIn.maxlength = maxlength;
-        inIn.className = "inputKleinnumericOnly";
+        inIn.className = "inputKlein numericOnly";
         inIn.type = 'text';
         inIn.name = 'textfeldname[]';
         newIn.appendChild(inIn);                        // Neues Eingabefeld anhaengen
@@ -527,8 +467,89 @@ function inseret_fields (inseretin, getitfrom) {
         text = document.createTextNode(textdes);
         inOut.appendChild(text);                        // Text in Ausgabe einfuegem
         newIn.appendChild(inOut);                       // Ausgabe in Beschreibungstext einfuegen
-        colIn.appendChild(newIn);                       // Eingabefeld in Inputspalte einfuegen
-        
-        newRow.appendChild(colIn);                      // Inputspalte in Tabelleneintrag einfeugen
+        inseretin.appendChild(newIn);                       // Eingabefeld in Inputspalte einfuegen
     }
 }
+
+
+// Hilfetext in HTML einfuegen
+function init_help (block, id_from, helptext) {
+    block.className = 'tooltip';
+    let id = Math.floor(Math.random() * 1000000000); 
+    block.setAttribute('onClick', 'create_tooltip(\'' + id_from + id + '\');');
+    let helpspan = document.createElement('span');
+    helpspan.className = 'tooltiptext';
+    helpspan.id = id_from + id;
+    text = document.createTextNode(helptext);
+    helpspan.appendChild(text);
+    block.appendChild(helpspan);
+}
+
+
+document.addEventListener('DOMContentLoaded', function () { // Event erst hinzufügen wenn der DOM geladen ist
+    document.getElementById('plan_check').onchange = function checkbox_checked () {
+        if (document.getElementById('plan_check').checked) {
+            let dom = document.getElementById('plan_check').parentNode.parentNode.parentNode;
+            let div = document.createElement('div');
+            div.className = 'label';
+            let label = document.createElement ('label');
+            let text = document.createTextNode('Anzahl der Lüfter:');
+            label.appendChild(text);
+            div.appendChild(label);
+            dom.appendChild(div);
+
+
+            div = document.createElement('div');
+            div.className = 'feld';
+
+            let input = document.createElement('input');
+            input.className = 'inputKlein';
+            input.maxLength = 2;
+            input.type = 'text';
+            input.id = 'AnzahlLuefter';
+
+            div.appendChild(input);
+            dom.appendChild(div);
+
+
+            div = document.createElement('div');
+            div.className = 'haupttext';
+
+            input = document.createElement('input');
+            input.className = 'inputcheck';
+            input.type = 'checkbox';
+            input.value = 'true';
+            input.id = 'Waermespeicher';
+
+            label = document.createElement ('label');
+            label.appendChild(input);
+            label.setAttribute('for', 'Waermespeicher');
+            text = document.createTextNode('Mindestens ein Wärmespeicher wird integriert.');
+            label.appendChild(text);
+
+            div.appendChild(label);
+
+            dom.appendChild(div);
+
+
+            div = document.createElement('div');
+            div.className = 'haupttext';
+
+            input = document.createElement('input');
+            input.className = 'inputcheck';
+            input.type = 'checkbox';
+            input.value = 'true';
+            input.id = 'Kaeltespeicher';
+
+            label = document.createElement ('label');
+            label.appendChild(input);
+            label.setAttribute('for', 'Kaeltespeicher');
+            text = document.createTextNode('Mindestens ein Kältespeicher wird integriert.');
+            label.appendChild(text);
+
+            div.appendChild(label);
+
+            dom.appendChild(div);            
+        }
+    };
+});
