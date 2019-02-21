@@ -37,8 +37,8 @@ tbody tr td:first-child, tbody tr td:last-child {
 
   visibility: hidden;
   width: 300px;
-  background-color: rgb(230, 230, 230);
-  color: #6fb020;
+  background-color: rgb(51, 51, 51);
+  color: #ffffff;
   border-radius: 2px;
   padding: 10px;
   position: absolute;

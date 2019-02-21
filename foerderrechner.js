@@ -428,13 +428,24 @@ function add_block (blockid, new_block, max) {
 function inseret_fields (inseretin, getitfrom, id_from) {
     // Variablen Initialisieren
     let textunit; let textdes; let maxlength; let helptext; let newDes; let desOut; let text; let newIn; let inIn; let inOut;
+    let fields = getitfrom.length;
 
-    for (let p = 1; p < getitfrom.length; p++) {        // Schleife je Feld
+    for (let p = 1; p < fields; p++) {        // Schleife je Feld
 
         textunit = getitfrom[p][0];
         textdes = getitfrom[p][1];
         maxlength = getitfrom[p][2];
-        helptext = getitfrom[p][3];    
+        helptext = getitfrom[p][3];
+
+        if (fields > 1) { // mindestens zwei Felder vorhanden
+            if (p == 1) { // Erstes Feld
+                var min = getitfrom[1][3][4][0];
+                var max = getitfrom[1][3][4][0];
+            }  else {    // Zweites Feld
+            
+            }
+        }
+
 
         // Beschreibung vorne
         newDes = document.createElement('p');         // Textfeld fuer Beschreibung erstellen
