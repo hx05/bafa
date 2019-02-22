@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script language="javascript" src="TabellenDaten.js"></script>
+</head>
+<body>
+
+<label>Some text:</label>
+<input oninput="calc_1(this)" type="number" required>
+<input display="none">
+<label>Estimated total:</label>
+<output></output>
+<br>
+<label>Some text</label>
+<input oninput="calc_1(this)" type="text" required>
+<input type="text" name="full_name" required>
+<label>Estimated total:</label>
+<output></output>
+<br>
+Total:
+<output id="total" >0</output>
+
+</body>
+<script>
+function calc_1 (element) {
+
+    element.dataset.minmax = TableKomponentenSysteme.artikel[1][1][4];
+    element.dataset.calc = TableKomponentenSysteme.artikel[1][1][5];
+    element.dataset.format = ",00 EUR"; 
+
+    
+    let newInput = parseInt(element.value);
+    let minmax = element.dataset.minmax.split(',');
+    let format = element.dataset.format;
+    let array1 = [0, 0];
+
+    let test = 'won´t work';
+
+    if (array1) {
+        test = 'work';
+    }
+
+
+    console.log(test);
+    console.log(minmax[1]);
+    //debugger;
+    let ausgabe =  "im Bereich";
+    if (newInput < minmax[0]) {
+    
+        ausgabe = "kleiner";
+
+    } else if (newInput > minmax[1]) {
+
+        ausgabe = "größer";
+
+    };
+
+
+    //let old = element.nextElementSibling.nextElementSibling.nextElementSibling.value;
+
+    //let calc = element.nextElementSibling.value.split(',');
+
+
+    // Ausgabe 1
+    element.nextElementSibling.nextElementSibling.nextElementSibling.value = ausgabe + format;
+    // Ausgabe 2
+    //document.getElementById('total').value = parseInt(document.getElementById('total').value) + calc -old;
+}
+</script>
+</html>

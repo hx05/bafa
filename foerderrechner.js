@@ -219,7 +219,6 @@ function add_row(entry) {
         }
     }
 
-
     // Nummerierung der Zeilen
     let row_num = tableBody.getElementsByTagName('tr').length;
     if (row_num) {                                      
@@ -258,17 +257,17 @@ function add_row(entry) {
     newMain.appendChild(MainOut);       // Ausgabe in Haupttext einfuegen
     colIn.appendChild(newMain);         // Haupttext in Inputspalte einfuegen
     
-    if (SelInV) { // Ist ein valider Eintrag gewaelt worden?
-        for (let a = 0; a< TableAdd.artikel.length; a++) {  // Schleife je Artikel
+    
+    for (let a = 0; a< TableAdd.artikel.length; a++) {  // Schleife je Artikel
 
-            if (SelInV == cleartext(TableAdd.artikel[a][0])) {
-
-            let getitfrom = TableAdd.artikel[a];
-            inseret_fields (colIn, getitfrom, table_dom_Add.id);
-            newRow.appendChild(colIn);                      // Inputspalte in Tabelleneintrag einfeugen
-            }
+        if (SelInV == cleartext(TableAdd.artikel[a][0])) {
+        let getitfrom = TableAdd.artikel[a];
+        inseret_fields (colIn, getitfrom, table_dom_Add.id);
+        newRow.appendChild(colIn);                      // Inputspalte in Tabelleneintrag einfeugen
         }
+    }
 
+    //let colCalc = document
         
 
     let colDel = document.createElement('td'); // Spalte fuer Loeschfunktion erstellen
@@ -284,8 +283,6 @@ function add_row(entry) {
     tableBody.appendChild(newRow);      // Tabelleneintrag in tbody einfeugen
 
     entry.selectedIndex = 0;            // Auswahlliste auf ersten Eintrag setzen
-
-    }
 }
 
 function create_tooltip (id) {
@@ -337,8 +334,7 @@ function init_block (block) {
         option.name = "block_radio";
         option.className = "inputCheck";
         option.id = block.id +"select1";
-        option.value = i+1;
-        console.log('Step 1 '+ 1);
+        option.value = i + 1;
         option.onclick = function() {lev2_block(block.id, Block.artikel[i], 1) };
 
         label_option = document.createElement('label');
@@ -373,7 +369,6 @@ function lev2_block (blockid, place, firstrun) {
         option.className = 'inputCheck';
         option.id = blockid + 'select' + num3;
         option.value = i + 1;
-        console.log('Step 2 '+num3);
         if (!next_lev) option.onclick = function() { lev3_block(blockid, place[i], num3 + 1)};
         else option.onclick = function() { lev2_block(blockid, place[i]) };
 
@@ -386,8 +381,6 @@ function lev2_block (blockid, place, firstrun) {
 
         block_text.appendChild(div);
     };
-    console.log(block_text.firstChild);
-    console.log(block_text.firstChild.firstChild);
     block_text.insertBefore(document.createElement('hr'), block_text.firstChild);
     add_block (blockid, block_text, num3);
 };
@@ -407,17 +400,13 @@ function lev3_block (blockid, place, max) {
 function add_block (blockid, new_block, max) {
     let block_dom = document.getElementById(blockid);
     let blocks = block_dom.getElementsByTagName('div').length;
-    console.log('blocks '+blocks);
-    console.log('max '+max);
     if (blocks > max) {
         for (let s = max; s < blocks; s++) {
-            console.log('kill');
             block_dom.removeChild(block_dom.lastChild);
         };
     };
     if (blocks >= max) {
         //debugger;
-        console.log('yes');
         let replace = block_dom.lastChild;
         block_dom.replaceChild(new_block, replace);
     } else block_dom.appendChild(new_block);
@@ -427,7 +416,7 @@ function add_block (blockid, new_block, max) {
 // Felder einfuegen
 function inseret_fields (inseretin, getitfrom, id_from) {
     // Variablen Initialisieren
-    let textunit; let textdes; let maxlength; let helptext; let newDes; let desOut; let text; let newIn; let inIn; let inOut;
+    let textunit; let textdes; let maxlength; let helptext; let newDes; let desOut; let text; let newIn; let inIn; let inOut; let minmax; let calc;
     let fields = getitfrom.length;
 
     for (let p = 1; p < fields; p++) {        // Schleife je Feld
@@ -436,17 +425,10 @@ function inseret_fields (inseretin, getitfrom, id_from) {
         textdes = getitfrom[p][1];
         maxlength = getitfrom[p][2];
         helptext = getitfrom[p][3];
+        minmax = getitfrom[p][4];
+        calc = getitfrom[p][5];
 
-        if (fields > 1) { // mindestens zwei Felder vorhanden
-            if (p == 1) { // Erstes Feld
-                var min = getitfrom[1][3][4][0];
-                var max = getitfrom[1][3][4][0];
-            }  else {    // Zweites Feld
-            
-            }
-        }
-
-
+        document.nextSibling
         // Beschreibung vorne
         newDes = document.createElement('p');         // Textfeld fuer Beschreibung erstellen
         newDes.className = 'label';
@@ -462,6 +444,8 @@ function inseret_fields (inseretin, getitfrom, id_from) {
 
         inseretin.appendChild(newDes);                      // Beschreibungstext in Inputspalte
 
+
+
         // Eingabe
         newIn = document.createElement('p');          // Textfeld fuer Eingabe erstellen
         newIn.className = "feld";
@@ -470,6 +454,9 @@ function inseret_fields (inseretin, getitfrom, id_from) {
         inIn.className = "inputKlein numericOnly";
         inIn.type = 'text';
         inIn.name = 'textfeldname[]';
+        inIn.setAttribute('onInput', 'calc(this)');
+        inIn.dataset.minmax = minmax;
+        inIn.dataset.calc = calc;
         newIn.appendChild(inIn);                        // Neues Eingabefeld anhaengen
 
 
@@ -478,7 +465,13 @@ function inseret_fields (inseretin, getitfrom, id_from) {
         text = document.createTextNode(textdes);
         inOut.appendChild(text);                        // Text in Ausgabe einfuegem
         newIn.appendChild(inOut);                       // Ausgabe in Beschreibungstext einfuegen
-        inseretin.appendChild(newIn);                       // Eingabefeld in Inputspalte einfuegen
+
+        // Ausgabe
+        inOutput = document.createElement('output');        // Ausgabefeld erstellen
+        inOutput.className = "ausgabe";
+        newIn.appendChild(inOutput);                       // Ausgabe in Beschreibungstext einfuegen
+
+        inseretin.appendChild(newIn);                   // Eingabefeld in Inputspalte einfuegen
     }
 }
 
@@ -497,7 +490,7 @@ function init_help (block, id_from, helptext) {
 }
 
 
-document.addEventListener('DOMContentLoaded', function () { // Event erst hinzufügen wenn der DOM geladen ist
+function create_checkfields () {        // Auswahlfelder erstellen
     document.getElementById('plan_check').onchange = function checkbox_checked () {
         if (document.getElementById('plan_check').checked) {
             let dom = document.getElementById('plan_check').parentNode.parentNode.parentNode;
@@ -563,4 +556,123 @@ document.addEventListener('DOMContentLoaded', function () { // Event erst hinzuf
             dom.appendChild(div);            
         }
     };
+};
+
+function calc (element) {
+    let newInput = parseInt(element.value);
+    let minmax = element.dataset.minmax === 'false' ? false : JSON.parse("["+ element.dataset.minmax + "]");
+    let calc = element.dataset.calc === 'false' ? false : JSON.parse("["+ element.dataset.calc + "]");
+    let outputfield =  element.nextElementSibling.nextElementSibling;
+    
+    let oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
+    let oldvaluetotal = document.getElementById('total').dataset.out ? Number(document.getElementById('total').dataset.out) : 0;
+    let output = '';
+    let outputformat;
+    if (calc && newInput || !calc && !minmax) {
+        outputfield.style.color = 'green';
+        if (calc.length == 3) {         // Förderung für stationäre Anlagen          
+            output = (calc[0]*Math.pow(newInput, calc[1])+calc[2])*newInput;
+        }
+        else if (calc.length == 2 || !calc && !minmax) {    // Förderung Kühlsolekreisläufe
+            //debugger;
+            let length ;
+            let diameter;
+            if (element.nextElementSibling.value == " lfdm") { // erstes Feld
+                length = newInput;
+                diameter = element.parentNode.nextElementSibling.nextElementSibling.firstChild.value;
+                if (!diameter) diameter = 0;
+                calc = JSON.parse("["+ element.parentNode.nextElementSibling.nextElementSibling.firstChild.dataset.calc + "]");
+
+                // Ausgabefeld umschreiben
+                outputfield = element.parentNode.nextElementSibling.nextElementSibling.firstChild.nextElementSibling.nextElementSibling;
+                oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
+
+            } else { // zweites Feld
+                diameter = newInput;
+                length = element.parentNode.previousElementSibling.previousElementSibling.firstChild.value;
+                if (!length) length = 0;
+            }
+            if (length && diameter) output = calc[0]*length*diameter+calc[1]; // Nur berechnen wenn beide Angaben vorhanden
+            //else if (length) output = "Bitte Durchmesser angeben";
+            //else output = "Bitte länge angeben";
+
+        } else {                        // Kühlmöbel
+            output = newInput * calc[0];
+        };
+        outputformat = euro(output);
+
+    };
+
+
+    if (minmax) {
+        if (newInput < minmax[0]) {
+            outputfield.style.color = 'red';
+            outputformat = false;
+            output = "Achtung: Förderung erst ab " + minmax[0] + element.nextElementSibling.value;
+        } else if (newInput > minmax[1]) {
+            outputformat = false;
+            outputfield.style.color = 'red';
+            output = "Achtung: Förderung bis maximal " + minmax[1] + element.nextElementSibling.value;
+        }
+    };
+
+    // Ausgabe
+    if (outputformat) { // keine Fehler
+        element.nextElementSibling.nextElementSibling.value = outputformat;
+        element.nextElementSibling.nextElementSibling.dataset.out = output;
+        // Gesamtergebnis 
+        let newtotal = oldvaluetotal - oldvalue + output;
+        if (newtotal) {
+            document.getElementById('total').value ="Fördersumme: " + euro(newtotal);
+            document.getElementById('total').dataset.out = newtotal;
+        } else {
+            document.getElementById('total').value = '';
+            document.getElementById('total').dataset.out = 0;
+        }
+   
+    } else {
+        element.nextElementSibling.nextElementSibling.value = output;
+        if (oldvalue) {
+            let newtotal = oldvaluetotal - oldvalue;
+            element.nextElementSibling.nextElementSibling.dataset.out = 0;
+            if (newtotal) {
+                document.getElementById('total').value ="Fördersumme: " + euro(newtotal);
+                document.getElementById('total').dataset.out = newtotal;
+            } else {
+                document.getElementById('total').value = '';
+                document.getElementById('total').dataset.out = 0;
+            }
+        };
+    };
+
+    
+};
+
+
+function euro(number) {
+    number = Math.round(number);
+    number = '' + number;
+    if (number.length > 3) {
+        var mod = number.length % 3;
+        var output = (mod > 0 ? (number.substring(0,mod)) : '');
+        for (i=0 ; i < Math.floor(number.length / 3); i++) {
+          if ((mod == 0) && (i == 0))
+            output += number.substring(mod+ 3 * i, mod + 3 * i + 3);
+          else
+            // hier wird das Trennzeichen festgelegt mit '.'
+            output+= '.' + number.substring(mod + 3 * i, mod + 3 * i + 3);
+        }
+        return output  + ",00 EUR";
+    }
+    else return number  + ",00 EUR";
+ }
+
+
+
+document.addEventListener('DOMContentLoaded', function () { // Event erst hinzufügen wenn der DOM geladen ist
+
+    create_block();         // Auswahlfeld(er) laden
+    create_tables();        // Tabellen laden
+    create_checkfields ();  // Auswahlfelder laden
+
 });

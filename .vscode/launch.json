@@ -4,12 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
-            "name": "Launch Local",
+            "name": "Launch Test",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceFolder}/test.html"
+        },       
+        {
+            "name": "Launch Start",
             "type": "chrome",
             "request": "launch",
             "file": "${workspaceFolder}/start.html"
-        }
+        },
     ]
 }

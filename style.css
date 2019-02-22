@@ -1,8 +1,26 @@
 table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     display: flex; 
-    width:80%;
+    width:100%;
+}
 
+tfoot tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+
+tfoot tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+
+thead tr:first-child th:first-child,
+thead tr:first-child td:first-child {
+  border-top-left-radius:3px
+}
+
+thead tr:first-child th:last-child,
+thead tr:first-child td:last-child {
+  border-top-right-radius:3px
 }
 
 
@@ -24,6 +42,10 @@ tbody tr td:first-child, tbody tr td:last-child {
   vertical-align: baseline;
 }
 
+tfoot td {
+  font-weight: bold;
+  padding: 1em;
+}
 
 
 
@@ -31,10 +53,9 @@ tbody tr td:first-child, tbody tr td:last-child {
     position: relative;
     cursor: pointer;
     border-bottom: 1px dotted black;
-  }
+}
   
 .tooltip .tooltiptext {
-
   visibility: hidden;
   width: 300px;
   background-color: rgb(51, 51, 51);
@@ -43,7 +64,8 @@ tbody tr td:first-child, tbody tr td:last-child {
   padding: 10px;
   position: absolute;
   z-index: 10;
-  left: 100%;
+  top: 200%;
+  left: 50%;
   margin-top: -10px;
   margin-left: 12px;
   font-size: 90%;
@@ -85,11 +107,11 @@ label {
 
 
 .label {
-clear: both;
-float: left;
-width: 15em !important;
-padding: 0.2em 0 0 0;
-display: block;
+  clear: both;
+  float: left;
+  width: 15em !important;
+  padding: 0.2em 0 0 0;
+  display: block;
 }
 
 .haupttext {
@@ -105,15 +127,14 @@ display: block;
 
 
 legend {
-
   margin: 0;
   padding: 0;
   font-weight: bold;
-
 }
 
 fieldset {
   border: 1px solid #00689e;
+  border-radius: 3px;
   padding-left: 1em;
   padding-top: 0.5em;
   margin-bottom: 0.5em;
@@ -131,13 +152,34 @@ p {
 
 .inputKlein {
   border: solid 1px rgb(0, 0, 0);
+  border-radius: 3px;
   width: 5em !important;
   padding: 0.2em;
 }
+
+
 
 
 /* label span {display: inline-block; width: 120px;}
 
 .hide {display: none;} */
 
+select {
+  border-radius: 3px;
+  font-weight: bold;
+}
 
+.ausgabe {
+  float: right;
+  width: 28em !important;
+  padding: 0.2em 0 0 0;
+  display: flex;
+  font-weight: bold;
+}
+
+
+div {
+  margin-top: 1em; 
+}
+
+/* Evtl. Tooltips verändern: https://wiki.selfhtml.org/wiki/HTML/Universalattribute/data-Attribute#mit_JavaScript */
