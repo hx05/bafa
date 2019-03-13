@@ -6,7 +6,10 @@
   <script src="jquery-3.3.1.min.js"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
   <script language="javascript" src="foerderrechner.js"></script>
-  <script language="javascript" src="TabellenDaten.js"></script>
+  <script language="javascript" src="tables_data.js"></script>
+  <script language="javascript" src="create_tables.js"></script>
+  <script language="javascript" src="create_checkfields.js"></script>
+  <script language="javascript" src="create_blocks.js"></script>
 
 </head>
 <body>
@@ -16,20 +19,32 @@
   <table id="TableThermischeSpeicher"></table>
 
   <fieldset id="BlockPlanung" class="fieldblock">
-    <legend class="tooltip" onclick="create_tooltip('BlockPlanung1');">Kombinationsbonus für Regenerativenergiesysteme (stationäre Anlagen)
+    <legend class="tooltip" onclick="create_tooltip('BlockPlanung1');">Pauschale für die Ausführungsplanung bei stationären Anlagen
         <span class="tooltiptext" id="BlockAnlage407267768">
-            Der Kombinationsbonus kann für die Kombination einer geförderten Kälte- oder Klimaanlage mit einem Regenerativenergiesystem zur Bereitstellung von elektrischer oder thermischer Antriebsenergie gewährt werden. Geben Sie hier an, mit welcher Art von Regenerativenergiesystem, die stationäre Kälte- oder Klimaanlage kombiniert werden soll.
+          Beantragen Sie hier ggf. die Förderung von Planungsleistungen für die Ausführung von Flüssigkeitskühlsätzen (indirekte Systeme) mit mehreren Kühlstellen sowie deren Kombination mit Wärme- und/oder Kältespeichern.
         </span>
     </legend>
         <div class="haupttext">
             <label>
             <input id="plan_check" class="inputCheck" type="checkbox" value="true">
-                Für die gleichzeitige Errichtung einer Anlage zur Erzeugung von regenerativen Energien (Elektroenergie und Wärme) beantrage ich den Kombinationsbonus für Regenerativenergiesysteme bei stationären Anlagen.
+            Ich beantrage zusätzlich eine Pauschalförderung für die Ausführungsplanung von Flüssigkeitskühlsätzen (sog. indirekten Systemen) mit mehreren Kühlstellen, sowie deren Kombination mit Wärme- und/oder Kältespeichern.
             </label>
         </div>
   </fieldset>
-
-  <output class="ausgabe" style="color: green; font-size: 120%" id="total"></output>
+  <div>
+    <output class="ausgabe" style="color: green; font-size: 120%" id="total"></output>
+    <output class="ausgabe" style="color: red"></output>
+    <br>
+  </div>
 </form>
+<div><b>Alle Angaben ohne gewähr.</b> Externe Links und Quellen:</div>
+<p><a href="https://um.baden-wuerttemberg.de/fileadmin/redaktion/m-um/intern/Dateien/Dokumente/2_Presse_und_Service/Veranstaltungen/Pr%C3%A4sentationen/2018/180620_Gesundheitseinrichtungen/Arain.pdf" target="_blank">Übersicht Programm</a></p>
+<p><a href="https://www.bafa.de/SharedDocs/Downloads/DE/Energie/kki_fachtechnik_merkblatt.html?nn=8064164" target="_blank">Merkblatt Fachtechnik</a></p>
+<p><a href="https://www.bafa.de/SharedDocs/Downloads/DE/Energie/kki_merkblatt_abgrenzung.pdf?__blob=publicationFile&v=8" target="_blank">Abgrenzung förderfähige Kosten</a></p>
+<p><a href="https://www.bundesanzeiger.de/ebanzwww/wexsservlet?page.navid=official_starttoofficial_view_publication&session.sessionid=371d86bc799d397d4aceb3cb765e9df4&fts_search_list.selected=d7f16b657344f903&&fts_search_list.destHistoryId=86267&fundstelle=BAnz_AT_31.01.2019_B2" target="_blank">Richtlinie vom 19.12.18</a></p>
+<p><a href="https://www.bafa.de/DE/Energie/Energieeffizienz/Klima_Kaeltetechnik/klima_kaeltetechnik_node.html" target="_blank">Hompage der BAFA</a></p>
+
+
+
 </body>
 </html>
