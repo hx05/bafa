@@ -30,12 +30,19 @@ function init_block (block) {
 
     let block_text = document.createElement('div');
     block_text.className = "haupttext";
-    
-    block_text.innerHTML = Block.text;
+
+    let main_text = document.createElement('main');
+    main_text.innerHTML = Block.text;
+    block_text.appendChild(main_text);
    
 
-    let option; let label_option;
+    let option; let label_option; let span;
     for (let i = 0; i < Block.artikel.length; i++) {
+
+        label_option = document.createElement('label');
+        label_option.innerHTML = Block.artikel[i][0];
+        label_option.className = "containerCheck";
+
         option = document.createElement('input');
         option.type = "radio";
         option.name = "block_radio";
@@ -43,15 +50,14 @@ function init_block (block) {
         option.id = block.id +"select1";
         option.value = i + 1;
         option.onclick = function() {lev2_block(block.id, Block.artikel[i], 1) };
+        label_option.appendChild(option);
 
-        label_option = document.createElement('label');
-        label_option.setAttribute('for', block.id +"select1");
-        label_option.innerHTML = Block.artikel[i][0];
-        let div = document.createElement('p');
-        div.appendChild(option);
-        div.appendChild(label_option);
+        span = document.createElement('span');
+        span.className = 'checkmark';
+        label_option.appendChild(span);
 
-        block_text.appendChild(div);
+
+        block_text.appendChild(label_option);
     ;}
 
     block_dom.appendChild(block_text);
@@ -69,7 +75,13 @@ function lev2_block (blockid, place, firstrun) {
     let block_text = document.createElement('div');
     block_text.className = 'haupttext';
     let next_lev = $.isArray(place[1][1][1]);
+    let option; let label_option; let span;
     for (let i = 1; i < place.length; i++) {
+
+        label_option = document.createElement('label');
+        label_option.innerHTML = place[i][0];
+        label_option.className = "containerCheck";
+
         option = document.createElement('input');
         option.type = 'radio';
         option.name = 'block_radio' + num3;
@@ -78,15 +90,14 @@ function lev2_block (blockid, place, firstrun) {
         option.value = i + 1;
         if (!next_lev) option.onclick = function() { lev3_block(blockid, place[i], num3 + 1)};
         else option.onclick = function() { lev2_block(blockid, place[i]) };
+        label_option.appendChild(option);
 
-        let label_option = document.createElement('label');
-        label_option.setAttribute('for', blockid + 'select' + num3);
-        label_option.innerHTML = place[i][0];
-        let div = document.createElement('p');
-        div.appendChild(option);
-        div.appendChild(label_option);
+        span = document.createElement('span');
+        span.className = 'checkmark';
+        label_option.appendChild(span);
 
-        block_text.appendChild(div);
+
+        block_text.appendChild(label_option);
     };
     block_text.insertBefore(document.createElement('hr'), block_text.firstChild);
     add_block (blockid, block_text, num3);
@@ -106,6 +117,14 @@ function lev3_block (blockid, place, max) {
 // Neu erstellen Block einfuegen und alte Blocks gegebenfalls loeschen
 function add_block (blockid, new_block, max) {
     let block_dom = document.getElementById(blockid);
+    if (document.getElementsByName('kaelteerzeuger')[0]) {
+        let output = 0;
+        let outputfield = document.getElementsByName('kaelteerzeuger')[0].nextElementSibling.nextElementSibling;
+        let oldvalue = outputfield.dataset.out;
+        if (!oldvalue) oldvalue = 0;
+        let err = false;
+        set_output(output, oldvalue, outputfield, err); 
+    };
     let blocks = block_dom.getElementsByTagName('div').length;
     if (blocks > max) {
         for (let s = max; s < blocks; s++) {

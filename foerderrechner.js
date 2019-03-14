@@ -223,13 +223,13 @@ function calc_option () { // Förderung des Freikühlers
         let parts = document.getElementsByName('ruckkuehler');
         if (parts.length > 0) {
             for (let i = 0; i < parts.length; i++) {
-                let v = Number(parts[i].dataset.nextElementSibling.nextElementSibling.out);
+                let v = Number(parts[i].dataset.out);
                 if (isNaN(v)) v = 0;
                 sum += v;
             }
         };
-        let kaelterzeuger = document.getElementsByName('kaelterzeuger')[0] ? Number(document.getElementsByName('kaelterzeuger')[0].nextSibling.nextSibling.dataset.out) : 0;
-        sum += kaelterzeuger; // Foerderung Kaelteerzeuger addieren
+        let kaelteerzeuger = document.getElementsByName('kaelteerzeuger')[0] ? Number(document.getElementsByName('kaelteerzeuger')[0].nextSibling.nextSibling.dataset.out) : 0;
+        sum += kaelteerzeuger; // Foerderung Kaelteerzeuger addieren
         sum = sum * 0.05; // 5% mehr Födereung
 
         set_output(sum, oldvalue, outputfield, err);
@@ -239,8 +239,9 @@ function calc_option () { // Förderung des Freikühlers
 
 document.addEventListener('DOMContentLoaded', function () { // Event erst hinzufügen wenn der DOM geladen ist
 
-    create_block();         // Auswahlfeld(er) laden
-    create_tables();        // Tabellen laden
+    create_block ();        // Auswahlfeld(er) laden
+    create_tables ();       // Tabellen laden
     create_checkfields ();  // Auswahlfelder laden
+    create_lists ();        // Optionslisten der Tabellen laden
 
 });

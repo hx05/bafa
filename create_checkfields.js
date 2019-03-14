@@ -46,34 +46,41 @@ function create_checkfields () {        // Auswahlfelder erstellen
             div = document.createElement('div'); // Waermespeicher
             div.className = 'haupttext';
 
+            label = document.createElement ('label');
+            text = document.createTextNode('Mindestens ein Wärmespeicher wird integriert.');
+            label.appendChild(text);
+            label.className = "containerBox";
+
             input = document.createElement('input');
             input.className = 'inputcheck';
             input.type = 'checkbox';
             input.value = 'true';
             input.id = 'Waermespeicher';
             input.onchange = function checkbox_checked () {
-                if (this.checked) set_output (1000, 0, this.parentNode.nextElementSibling.nextElementSibling, 0);
-                else set_output (0, 1000, this.parentNode.nextElementSibling.nextElementSibling, 0);
+                if (this.checked) set_output (1000, 0, this.nextElementSibling.nextElementSibling.nextElementSibling, 0);
+                else set_output (0, 1000, this.nextElementSibling.nextElementSibling.nextElementSibling, 0);
             };
-
-            label = document.createElement ('label');
             label.appendChild(input);
-            label.setAttribute('for', 'Waermespeicher');
-            text = document.createTextNode('Mindestens ein Wärmespeicher wird integriert.');
-            label.appendChild(text);
-            div.appendChild(label);
+
+            span = document.createElement('span');
+            span.className = 'checkbox';
+            label.appendChild(span);
+    
+            
 
 
             // Beschreibung hinten (Warunung)
             inOut = document.createElement('output');           // Ausgabefeld erstellen
             inOut.style.color = 'orange';
-            div.appendChild(inOut);                             // Ausgabe in Beschreibungstext einfuegen
+            label.appendChild(inOut);                             // Ausgabe in Beschreibungstext einfuegen
             
             // Ausgabe
             inOutput = document.createElement('output');        // Ausgabefeld erstellen
             inOutput.className = 'ausgabe';
             inOutput.style.color = 'green';
-            div.appendChild(inOutput);                       // Ausgabe in Beschreibungstext einfuegen
+            label.appendChild(inOutput);                       // Ausgabe in Beschreibungstext einfuegen
+
+            div.appendChild(label);
 
             dom.appendChild(div);
 
@@ -81,33 +88,39 @@ function create_checkfields () {        // Auswahlfelder erstellen
             div = document.createElement('div'); // Kaeltespeicher
             div.className = 'haupttext';
 
+            label = document.createElement ('label');
+            text = document.createTextNode('Mindestens ein Kältespeicher wird integriert.');
+            label.appendChild(text);
+            label.className = "containerBox";
+
             input = document.createElement('input');
             input.className = 'inputcheck';
             input.type = 'checkbox';
             input.value = 'true';
             input.id = 'Kaeltespeicher';
             input.onchange = function checkbox_checked () {
-                if (this.checked) set_output (1000, 0, this.parentNode.nextElementSibling.nextElementSibling, 0);
-                else set_output (0, 1000, this.parentNode.nextElementSibling.nextElementSibling, 0);
+                if (this.checked) set_output (1000, 0, this.nextElementSibling.nextElementSibling.nextElementSibling, 0);
+                else set_output (0, 1000, this.nextElementSibling.nextElementSibling.nextElementSibling, 0);
             };
 
-            label = document.createElement ('label');
             label.appendChild(input);
-            label.setAttribute('for', 'Kaeltespeicher');
-            text = document.createTextNode('Mindestens ein Kältespeicher wird integriert.');
-            label.appendChild(text);
-            div.appendChild(label);
+
+            span = document.createElement('span');
+            span.className = 'checkbox';
+            label.appendChild(span);
 
             // Beschreibung hinten (Warunung)
             inOut = document.createElement('output');           // Ausgabefeld erstellen
             inOut.style.color = 'orange';
-            div.appendChild(inOut);                             // Ausgabe in Beschreibungstext einfuegen
+            label.appendChild(inOut);                             // Ausgabe in Beschreibungstext einfuegen
             
             // Ausgabe
             inOutput = document.createElement('output');        // Ausgabefeld erstellen
             inOutput.className = 'ausgabe';
             inOutput.style.color = 'green';
-            div.appendChild(inOutput);    
+            label.appendChild(inOutput);  
+            
+            div.appendChild(label);
 
             dom.appendChild(div);
             

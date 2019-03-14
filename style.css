@@ -51,11 +51,14 @@ tbody {
 tbody tr td:first-child, tbody tr td:last-child {
   text-align: center;
   vertical-align: baseline;
+  font-weight: bold;
+  font-size: 120%;
 }
 
 tfoot td {
   font-weight: bold;
-  padding: 1em;
+  padding: 0.5em;
+  font-size: 90%;
 }
 
 
@@ -81,9 +84,6 @@ tfoot td {
   margin-left: 12px;
   font-size: 90%;
 }
-  
-
-
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
@@ -109,25 +109,27 @@ tfoot td {
   to {opacity:1 ;}
 }
 
-
-
-label { 
-
-  padding: 1em;
+main {
+  padding-bottom: 0.5em;
 }
+
+/*
+label { 
+ padding: 1em;
+}
+*/
 
 
 .label {
   clear: both;
   float: left;
   width: 15em !important;
-  padding: 0.2em 0 0 0;
   display: block;
 }
 
 .haupttext {
   padding-top: 0.3em;
-  padding-bottom: 0.2em;
+  padding-bottom: 0.4em;
   line-height: 1.25em;
   margin: 0em 0em 0em 0em
 }
@@ -152,32 +154,44 @@ fieldset {
   margin-top: 1em;
 }
 
+a {
+  color: #6fb020;
+}
+
 
 p {
   display: block;
-  margin-block-start: 0.4em;
-  margin-block-end: 0.4em;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
 }
 
+
+
 .inputKlein {
-  border: solid 1px rgb(0, 0, 0);
-  border-radius: 3px;
+  border: solid 0.1px rgba(0, 0, 0, 0.212);
+  border-radius: 1em;
+  background-color: rgb(230, 230, 230);
   width: 5em !important;
-  padding: 0.2em;
+  padding: 0.5em;
+  text-align: center;
+  /*transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;*/
 }
 
-
-
-
-/* label span {display: inline-block; width: 120px;}
-
-.hide {display: none;} */
 
 select {
   border-radius: 3px;
   font-weight: bold;
+  padding: 0.4em;
+  margin: 50px;
+  width: 150px;
+  padding: 5px 35px 5px 5px;
+  border: 1px solid #ccc;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .ausgabe {
@@ -190,8 +204,252 @@ select {
 
 
 div {
-  margin-top: 1em;
+  margin-top: 0.4em;
   margin-bottom: 0.4em;
 }
+
+
+/* The container */
+.containerCheck {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.containerCheck input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: rgb(220, 220, 220);
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.containerCheck:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.containerCheck input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.containerCheck input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.containerCheck .checkmark:after {
+ 	top: 6px;
+	left: 6px;
+	width: 13px;
+	height: 13px;
+	border-radius: 100%;
+	background: white;
+}
+
+
+
+/* Checkbox*/
+.containerBox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.containerBox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+
+/* Create a custom checkbox */
+.checkbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: rgb(220, 220, 220);
+}
+
+/* On mouse-over, add a grey background color */
+.containerBox:hover input ~ .checkbox {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.containerBox input:checked ~ .checkbox {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.containerBox input:checked ~ .checkbox:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.containerBox .checkbox:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: #6fb020;
+  border: 1px solid transparent;
+  color: white;
+  padding: 6px 10px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 100px;
+}
+
+/*
+input[type="text"] {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #495057;
+  background-color: #fff;
+  background-image: none;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 0.25rem;
+  border-color: #80bdff;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+*/
+
+input[type="text"]:focus {
+  box-shadow: 0 0 3pt 0.5pt #80bdff;
+  outline: none;
+}
+
+input[type="text"]:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+
+.clearbutton:hover {
+  background-color: #00E66E;
+}
+
+
+
+
+/* Auswahlliste*/
+.custom-select {
+  position: relative;
+
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: #f5f5f5;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #6fb020 transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color:#6fb020;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: #f5f5f5;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
 
 /* Evtl. Tooltips verändern: https://wiki.selfhtml.org/wiki/HTML/Universalattribute/data-Attribute#mit_JavaScript */
