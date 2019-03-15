@@ -123,7 +123,7 @@ label {
 .label {
   clear: both;
   float: left;
-  width: 15em !important;
+  width: 17em !important;
   display: block;
 }
 
@@ -418,7 +418,7 @@ input[type="text"]:hover {
 
 /* Point the arrow upwards when the select box is open (active): */
 .select-selected.select-arrow-active:after {
-  border-color: transparent transparent #fff transparent;
+  border-color: transparent transparent #6fb020 transparent;
   top: 7px;
 }
 

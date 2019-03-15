@@ -16,5 +16,11 @@
             "request": "launch",
             "file": "${workspaceFolder}/start.html"
         },
+        {
+            "name": "Launch Test All in One",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceFolder}/allinone.html"
+        },       
     ]
 }

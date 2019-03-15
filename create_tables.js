@@ -197,6 +197,7 @@ function num_table_rows(tableRows) {
 
 // Spalte loeschen
 function remove_row(startpoint) {
+    //debugger;
     let tr = startpoint.parentNode.parentNode
     let tbody = tr.parentNode;
 
@@ -208,7 +209,7 @@ function remove_row(startpoint) {
     let err = false;
     set_output(output, oldvalue, outputfield, err);
 
-    $(tr).animate({  // Animieren und loeschen der Zeile
+    /*$(tr).animate({  // Animieren und loeschen der Zeile
         padding: '0px',
         marginRight:'-10px',
         fontSize: '0px',
@@ -216,11 +217,12 @@ function remove_row(startpoint) {
       }, 250, function() {
           $(tr).remove();      
       });
+    */
+    tbody.removeChild(tr);
 
     let rows = tbody.getElementsByTagName('tr');
-    if (rows.length > 1) {     
-        num_table_rows(rows);  // Nummerierung erneuern
-    } else {
+    num_table_rows(rows);  // Nummerierung erneuern
+    if (!rows.length) {
         let table = tbody.parentNode;
         let thead = table.getElementsByTagName('thead')[0];
         thead.style.display = 'none';
@@ -377,6 +379,7 @@ function inseret_fields (inseretin, getitfrom, id_from) {
 }
 
 function create_lists () {
+    let open = false;
     // Auswahlliste
     var x, i, j, selElmnt, a, b, c;
     /* Look for any elements with the class "custom-select": */
@@ -429,32 +432,39 @@ function create_lists () {
         and open/close the current select box: */
         e.stopPropagation();
         closeAllSelect(this);
+        open = true;
         this.nextSibling.classList.toggle("select-hide");
         this.classList.toggle("select-arrow-active");
     });
     }
 
     function closeAllSelect(elmnt) {
-    /* A function that will close all select boxes in the document,
-    except the current select box: */
-    var x, y, i, arrNo = [];
-    x = document.getElementsByClassName("select-items");
-    y = document.getElementsByClassName("select-selected");
-    for (i = 0; i < y.length; i++) {
-        if (elmnt == y[i]) {
-        arrNo.push(i)
-        } else {
-        y[i].classList.remove("select-arrow-active");
+        //debugger;
+        /* A function that will close all select boxes in the document,
+        except the current select box: */
+        var x, y, i, arrNo = [];
+        x = document.getElementsByClassName("select-items");
+        y = document.getElementsByClassName("select-selected");
+        for (i = 0; i < y.length; i++) {
+            if (elmnt == y[i]) {
+            arrNo.push(i)
+            } else {
+            y[i].classList.remove("select-arrow-active");
+            }
         }
-    }
-    for (i = 0; i < x.length; i++) {
-        if (arrNo.indexOf(i)) {
-        x[i].classList.add("select-hide");
+        for (i = 0; i < x.length; i++) {
+            if (arrNo.indexOf(i)) {
+            x[i].classList.add("select-hide");
+            }
         }
-    }
+    
     }
 
     /* If the user clicks anywhere outside the select box,
     then close all select boxes: */
-    document.addEventListener("click", closeAllSelect);
+    if (open) {
+        document.addEventListener("click", closeAllSelect);
+    } else {
+        document.removeEventListener("click", closeAllSelect);
+    }
 }
