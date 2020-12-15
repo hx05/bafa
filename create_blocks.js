@@ -49,7 +49,10 @@ function init_block (block) {
         option.className = "inputCheck";
         option.id = block.id +"select1";
         option.value = i + 1;
-        option.onclick = function() {lev2_block(block.id, Block.artikel[i], 1) };
+
+        let next_lev = $.isArray(Block.artikel[i][1][1]);
+        if (next_lev)   option.onclick = function() {lev2_block(block.id, Block.artikel[i], 1)};
+        else            option.onclick = function() {lev3_block(block.id, Block.artikel[i], 2)};
         label_option.appendChild(option);
 
         span = document.createElement('span');
@@ -74,10 +77,10 @@ function lev2_block (blockid, place, firstrun) {
     }
     let block_text = document.createElement('div');
     block_text.className = 'haupttext';
-    let next_lev = $.isArray(place[1][1][1]);
+    
     let option; let label_option; let span;
     for (let i = 1; i < place.length; i++) {
-
+        let next_lev = $.isArray(place[i][1][1]);
         label_option = document.createElement('label');
         label_option.innerHTML = place[i][0];
         label_option.className = "containerCheck";
@@ -88,8 +91,8 @@ function lev2_block (blockid, place, firstrun) {
         option.className = 'inputCheck';
         option.id = blockid + 'select' + num3;
         option.value = i + 1;
-        if (!next_lev) option.onclick = function() { lev3_block(blockid, place[i], num3 + 1)};
-        else option.onclick = function() { lev2_block(blockid, place[i]) };
+        if (next_lev)  option.onclick = function() { lev3_block(blockid, place[i])};
+        else           option.onclick = function() { lev2_block(blockid, place[i], num3 + 1 ) };
         label_option.appendChild(option);
 
         span = document.createElement('span');

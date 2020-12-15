@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "Task-create_blocks",
+      "appliesTo": "create_blocks.js",
+      "type": "launch"
+    }
+  ]
+}

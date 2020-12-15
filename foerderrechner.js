@@ -1,18 +1,18 @@
 // und in oder umwandeln
 function and_or (text) {
-    return text.replace(/und/, 'oder');
+    return text.replace(/und/g, 'oder');
 }
 
 
 // Sonderzeichen loeschen
 function cleartext (value) {
-    value = value.replace(/\u00e4/g, 'ae');
-    value = value.replace(/\u00c4/g, 'AE');
-    value = value.replace(/\u00d4/g, 'oe');
-    value = value.replace(/\u00e4/g, 'OE');
-    value = value.replace(/\u00f6/g, 'ue');
-    value = value.replace(/\u00d6/g, 'UE');
-    value = value.replace(/\u00df/g, 'ss');
+    value = value.replace(/\u00e4/gi, 'ae');
+    value = value.replace(/\u00c4/gi, 'AE');
+    value = value.replace(/\u00fc/gi, 'ue');
+    value = value.replace(/\u00dc/gi, 'UE');
+    value = value.replace(/\u00f6/gi, 'oe');
+    value = value.replace(/\u00d6/gi, 'OE');
+    value = value.replace(/\u00df/gi, 'ss');
     value = value.replace(/ /g, '-');
     value = value.replace(/\./g, '');
     value = value.replace(/\,/g, '');
@@ -150,7 +150,7 @@ function calc (element) {
 
 
 function set_output(output, oldvalue, outputfield, err) {   // Ausgabe
-    //debugger;
+
     let oldvaluetotal = document.getElementById('total').dataset.out ? Number(document.getElementById('total').dataset.out) : 0;
     if (!err) { // keine Fehler
         if (output) {
@@ -212,27 +212,33 @@ function euro(wert) { // Formatierung der Ausgabe in EURO
 }
 
 
-function calc_option () { // Förderung des Freikühlers 
-    let outputfield = document.getElementById('freikuehlout');
-    if (outputfield) {
-        let oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
-        let err = false;
-        let sum = 0;
+function calc_option () { // Förderung von Komponenten
+    
+    let outputfields = document.getElementsByName('tableoptions');
+    let num_outputfields = outputfields.length;
 
-        // Foerdersummen der Anlagenteile addieren
-        let parts = document.getElementsByName('ruckkuehler');
-        if (parts.length > 0) {
-            for (let i = 0; i < parts.length; i++) {
-                let v = Number(parts[i].dataset.out);
-                if (isNaN(v)) v = 0;
-                sum += v;
-            }
-        };
-        let kaelteerzeuger = document.getElementsByName('kaelteerzeuger')[0] ? Number(document.getElementsByName('kaelteerzeuger')[0].nextSibling.nextSibling.dataset.out) : 0;
-        sum += kaelteerzeuger; // Foerderung Kaelteerzeuger addieren
-        sum = sum * 0.05; // 5% mehr Födereung
+    if (num_outputfields > 0) {
+        for (let i = 0; i < num_outputfields; i++) { 
+            let oldvalue = outputfields[i].dataset.out ? Number(outputfields[i].dataset.out) : 0;
+            let err = false;
+            let sum = 0;
 
-        set_output(sum, oldvalue, outputfield, err);
+            // Foerdersummen der Anlagenteile addieren
+            let parts = document.getElementsByName('ruckkuehler');
+            if (parts.length > 0) {
+                for (let i = 0; i < parts.length; i++) {
+                    let v = Number(parts[i].dataset.out);
+                    if (isNaN(v)) v = 0;
+                    sum += v;
+                }
+            };
+            let kaelteerzeuger = document.getElementsByName('kaelteerzeuger')[0] ? Number(document.getElementsByName('kaelteerzeuger')[0].nextSibling.nextSibling.dataset.out) : 0;
+            sum += kaelteerzeuger; // Foerderung Kaelteerzeuger addieren
+            let proz = outputfields[i].dataset.inputproz;
+            sum = sum * proz; 
+
+            set_output(sum, oldvalue, outputfields[i], err);
+        }
     }
 }
 

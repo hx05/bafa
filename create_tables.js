@@ -1,17 +1,24 @@
 // Prüfen ob eine Tabelle im html-code bereits angelegt ist
 function create_tables () {
+    
     let tables = document.formcalcbafa.getElementsByTagName('table');
     let num_tables = tables.length
+
     for (let i = 0; i < num_tables; i++) {
-        if (!tables[i].className) {     // Klasse noch nicht definiert
+
+        let Table_Data = this[tables[i].id];        // Tabellenid auf Objekt referenzieren
+        if (Table_Data.name) {                      // Ist ein Name in der Refferenz vorhanden?
+            if (!tables[i].className) {             // Klasse noch nicht definiert
             init_table (tables[i]);
-        }         
+            }
+        }
     }
 }
 
 
 // Tabelle erstellen
-function init_table (table) {                            
+function init_table (table) {
+                         
     let Table = this[table.id];                             // Tabellenid auf Objekt referenzieren
 
 
@@ -19,7 +26,7 @@ function init_table (table) {
     let div = document.createElement('div');
     div.className = 'custom-select';
 
-    let select = document.createElement('select');         // Tabellenfuß erstellen
+    let select = document.createElement('select');         
     select.id = 'select' + table.id;
     select.setAttribute('onchange', 'if (this.selectedIndex) add_row(this.parentNode);');
 
@@ -34,13 +41,19 @@ function init_table (table) {
         select.appendChild(option);
     }
 
+    // Erste Spalte (Nummeriernug verstecken)
+    let tdhidden = document.createElement('td');
+    tdhidden.style.display = "none";
+
+
     let td = document.createElement('td');
-    td.setAttribute('colspan', 3);
+    td.setAttribute('colspan', 2);
 
     div.appendChild(select);
     td.appendChild(div);
 
     let tr = document.createElement('tr');
+    tr.appendChild(tdhidden);
     tr.appendChild(td);
 
     let food = document.createElement('tfoot');         // Tabellenfuß erstellen
@@ -52,27 +65,29 @@ function init_table (table) {
     table_dom.appendChild(food);
 
 
-    // colgruop ersten
-    let colg = document.createElement('colgroup');
+    // colgruop ersten 14.12.20 sieht ohne genau so aus im aktuellen Chrome, fliegt raus weil 'width' veraltet...
+    //let colg = document.createElement('colgroup');
 
-    let col1 = document.createElement('col');
-    col1.width = '5%';
-    colg.appendChild(col1);
-    let col2 = document.createElement('col');
-    col2.width = '85%';
-    colg.appendChild(col2);
-    let col3 = document.createElement('col');
-    col3.width = '10%';
-    colg.appendChild(col3);
+    //let col1 = document.createElement('col');
+    //col1.width = '5%';
+    //colg.appendChild(col1);
+    //let col2 = document.createElement('col');
+    //col2.width = '85%';
+    //colg.appendChild(col2);
+    //let col3 = document.createElement('col');
+    //col3.width = '10%';
+    //colg.appendChild(col3);
 
-    table_dom.appendChild(colg);
+    //table_dom.appendChild(colg);
 
 
     // Tabellenkopf erstellen
     let trhead = document.createElement('tr');
     
     let th1 = document.createElement('th');
-
+    
+    // Spaltenüberschrift für Nummerierung verstecken 
+    th1.style.display = "none";
 
 
     let textnr1 = document.createTextNode ('Nr.');
@@ -118,70 +133,81 @@ function init_table (table) {
 
     // Optionen einfuegen
     if (Table.option) {
+        let num_options = Table.option.length;  // Anzahl der Optionen
 
-        // Beschreibung
-        let divdes = document.createElement('div');
-        let text = document.createTextNode(Table.option[0]);
-        divdes.appendChild(text);
+        for (let i = 0; i < num_options; i++) {
 
-        fieldtable.appendChild(divdes);
+            // Beschreibung
+            let divdes = document.createElement('div');
+            let text = document.createTextNode(Table.option[i][0]);
+            divdes.appendChild(text);
+            divdes.name = cleartext(Table.option[i][0]);
+            fieldtable.appendChild(divdes);
 
-        // Abhackfeld einfuegen
+            let num_checkfields = Table.option[i].length;
 
-        let label = document.createElement('label');
-        text = document.createTextNode(Table.option[1] + " " + Table.option[2]);
-        label.appendChild(text);
-        label.className = "containerBox";
+            for (let j = 1; j < num_checkfields; j++) {
 
-        let inputcheck = document.createElement('input');
-        //inputcheck.className = "inputcheck";
-        inputcheck.type = "checkbox";
-        inputcheck.name = cleartext(Table.option[0]);
-        //inputcheck.value = true;
-        inputcheck.onchange = function checkbox_checked () {
-            if (this.checked) {
-                create_outputfields (this, Table.option[3]);
-                calc_option ();
-            } else {
-                let outputfield = document.getElementById('freikuehlout');
-                let oldvalue = Number(outputfield.dataset.out);
-                set_output(0, oldvalue, outputfield, false);
-                this.parentNode.removeChild(this.parentNode.lastChild);
+
+                // Abhackfeld einfuegen
+
+                let label = document.createElement('label');
+                text = document.createTextNode(Table.option[i][j][0]);
+                label.appendChild(text);
+                label.className = "containerBox";
+
+                let inputcheck = document.createElement('input');
+                //inputcheck.id = "tableoptions";
+                inputcheck.type = "checkbox";
+                //inputcheck.name = cleartext(Table.option[i][j][0]);
+
+                //inputcheck.dataset.calc = Table.option[i][j][1];
+
+                inputcheck.onchange = function checkbox_checked () {
+                    if (this.checked) {
+                        create_outputfields (this, Table.option[i][j]);
+                        calc_option ();
+                    } else {
+                        let outputfield = document.getElementById(cleartext(Table.option[i][j][0]));
+                        let oldvalue = Number(outputfield.dataset.out);
+                        set_output(0, oldvalue, outputfield, false);
+                        this.parentNode.removeChild(this.parentNode.lastChild);
+                    }
+                };
+                label.appendChild(inputcheck);
+
+                span = document.createElement('span');
+                span.className = 'checkbox';
+                label.appendChild(span);
+                fieldtable.appendChild(label);
+
             }
-        };
-        label.appendChild(inputcheck);
 
-        span = document.createElement('span');
-        span.className = 'checkbox';
-        label.appendChild(span);
-        
-
-        //let divcheck = document.createElement('div');
-
-        fieldtable.appendChild(label);
-
-
+        }
 
     }
     
 }
 
-function create_outputfields (element, text) {
+function create_outputfields (element, data) {
 
+    let text = data[3];
+    let calc_data = data[1]
     let div = document.createElement('div');
 
-    // Beschreibung hinten 
+    // Beschreibung
     inOut = document.createElement('output');           // Ausgabefeld erstellen
     text = document.createTextNode(text);               // Beschreibung einfuegen
     inOut.appendChild(text);
-    //inOut.style.color = 'green';
     div.appendChild(inOut);                             // Ausgabe in Beschreibungstext einfuegen
     
     // Ausgabe
     inOutput = document.createElement('output');        // Ausgabefeld erstellen
+    inOutput.dataset.inputproz = calc_data;
     inOutput.className = 'ausgabe';
     inOutput.style.color = 'green';
-    inOutput.id = 'freikuehlout';
+    inOutput.id = cleartext(data[0]);
+    inOutput.name = "tableoptions";
     div.appendChild(inOutput);                       // Ausgabe in Beschreibungstext einfuegen
     element.parentNode.appendChild(div);
 }
@@ -197,7 +223,7 @@ function num_table_rows(tableRows) {
 
 // Spalte loeschen
 function remove_row(startpoint) {
-    //debugger;
+
     let tr = startpoint.parentNode.parentNode
     let tbody = tr.parentNode;
 
@@ -233,7 +259,7 @@ function remove_row(startpoint) {
 
 // Spalte hinzufuegen
 function add_row(entry) {
-    //debugger;
+
     let table_dom_Add = entry.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
     let TableAdd = this[table_dom_Add.id];
 
@@ -264,13 +290,16 @@ function add_row(entry) {
     // Eintrag erstellen
     let newRow = document.createElement('tr'); // Neuer Tabelleneintrag erstellen
 
-
     let colNum = document.createElement('td'); // Spalte fuer Nummerierung erstellen
 
+    // Spalte für Nummerierung verstecken 
+    colNum.style.display = "none";
+    
     let text = document.createTextNode(row_num);
     colNum.appendChild(text);
     let colNumIn = document.createElement('input');
     colNumIn.type = 'hidden';
+    
     colNumIn.id = table_dom_Add.id;
     colNumIn.value = row_num;
     colNum.appendChild(colNumIn); // Identifizerung der Nummernsplate einfuegen
@@ -386,7 +415,6 @@ function create_lists () {
     x = document.getElementsByClassName("custom-select");
     for (i = 0; i < x.length; i++) {
     selElmnt = x[i].getElementsByTagName("select")[0];
-
     /* For each element, create a new DIV that will act as the selected item: */
     a = document.createElement("DIV");
     a.setAttribute("class", "select-selected");
