@@ -1,3 +1,6 @@
+// Allgemeine Berechnungen und intergration der Eventlistener ins HTML-Document
+// Zuletzt bearbeitet am 15.12.20
+
 // und in oder umwandeln
 function and_or (text) {
     return text.replace(/und/g, 'oder');
@@ -47,10 +50,9 @@ function calcluefter (element) {
     let minmax = element.dataset.minmax === 'false' ? false : JSON.parse("["+ element.dataset.minmax + "]");
     let calc = element.dataset.calc === 'false' ? false : JSON.parse("["+ element.dataset.calc + "]");
     let outputfield = element.nextElementSibling.nextElementSibling;
-    let oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
+    //let oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
     let output = '';
     let err = false;
-    //debugger;
     if (newInput) {
         outputfield.style.color = 'green';
         output = newInput * calc;
@@ -64,7 +66,7 @@ function calcluefter (element) {
 
     }
 
-    set_output (output, oldvalue, outputfield, err);
+    set_output (output, outputfield, err);
 }
 
 
@@ -74,7 +76,7 @@ function calc (element) {
     let minmax = element.dataset.minmax === 'false' ? false : JSON.parse("["+ element.dataset.minmax + "]");
     let calc = element.dataset.calc === 'false' ? false : JSON.parse("["+ element.dataset.calc + "]");
     let outputfield = element.nextElementSibling.nextElementSibling;
-    let oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
+    //let oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
     let output = '';
     let err = false;
     if (calc && newInput || !calc && !minmax) {
@@ -93,7 +95,7 @@ function calc (element) {
                 calc = JSON.parse("["+ element.parentNode.nextElementSibling.nextElementSibling.firstChild.dataset.calc + "]");
                 // Ausgabefeld umschreiben
                 outputfield = element.parentNode.nextElementSibling.nextElementSibling.firstChild.nextElementSibling.nextElementSibling;
-                oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
+                //oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
 
                 if (!length) {
                     element.nextElementSibling.nextElementSibling.style.color = 'red';
@@ -145,21 +147,21 @@ function calc (element) {
         }
     };
 
-    set_output (output, oldvalue, outputfield, err);
+    set_output (output, outputfield, err);
 }
 
 
-function set_output(output, oldvalue, outputfield, err) {   // Ausgabe
-
-    let oldvaluetotal = document.getElementById('total').dataset.out ? Number(document.getElementById('total').dataset.out) : 0;
+function set_output(newvalue, outputfield, err) {   // Ausgabe
+    var oldvalue = outputfield.dataset.out ? Number(outputfield.dataset.out) : 0;
+    var oldvaluetotal = document.getElementById('total').dataset.out ? Number(document.getElementById('total').dataset.out) : 0;
     if (!err) { // keine Fehler
-        if (output) {
-            outputformat = euro(output);
+        if (newvalue) {
+            outputformat = euro(newvalue);
         } else outputformat = '';
         outputfield.value = outputformat;
-        outputfield.dataset.out = output;
+        outputfield.dataset.out = newvalue;
         // Gesamtergebnis 
-        let newtotal = oldvaluetotal - oldvalue + output;
+        let newtotal = oldvaluetotal - oldvalue + newvalue;
         
         if (newtotal) {
             if (newtotal > 150000) {
@@ -177,7 +179,7 @@ function set_output(output, oldvalue, outputfield, err) {   // Ausgabe
         };
    
     } else if (err !== 2) {
-        outputfield.value = output;
+        outputfield.value = newvalue;
         if (oldvalue) {
             let newtotal = oldvaluetotal - oldvalue;
             outputfield.dataset.out = 0;
@@ -219,25 +221,37 @@ function calc_option () { // Förderung von Komponenten
 
     if (num_outputfields > 0) {
         for (let i = 0; i < num_outputfields; i++) { 
-            let oldvalue = outputfields[i].dataset.out ? Number(outputfields[i].dataset.out) : 0;
+
+            var items  = outputfields[i].dataset.items === 'false' ? false : JSON.parse("["+ outputfields[i].dataset.items + "]");
+            //let oldvalue = outputfields[i].dataset.out ? Number(outputfields[i].dataset.out) : 0;
             let err = false;
-            let sum = 0;
+            var sum = 0;
+            for (let item of items) {
 
-            // Foerdersummen der Anlagenteile addieren
-            let parts = document.getElementsByName('ruckkuehler');
-            if (parts.length > 0) {
-                for (let i = 0; i < parts.length; i++) {
-                    let v = Number(parts[i].dataset.out);
-                    if (isNaN(v)) v = 0;
-                    sum += v;
+                if (item === 2) { // Rückkühler
+                // Foerdersummen der Anlagenteile addieren
+                let parts = document.getElementsByName('ruckkuehler');
+                if (parts.length > 0) {
+                    for (let i = 0; i < parts.length; i++) {
+                        let v = Number(parts[i].nextElementSibling.nextElementSibling.dataset.out);
+                        if (isNaN(v)) v = 0;
+                        sum += v;
+                    }
                 }
-            };
-            let kaelteerzeuger = document.getElementsByName('kaelteerzeuger')[0] ? Number(document.getElementsByName('kaelteerzeuger')[0].nextSibling.nextSibling.dataset.out) : 0;
-            sum += kaelteerzeuger; // Foerderung Kaelteerzeuger addieren
-            let proz = outputfields[i].dataset.inputproz;
-            sum = sum * proz; 
-
-            set_output(sum, oldvalue, outputfields[i], err);
+                } else if (item === 1) { // Kälteerzeuger
+                    let kaelteerzeuger = document.getElementsByName('kaelteerzeuger')[0] ? Number(document.getElementsByName('kaelteerzeuger')[0].nextSibling.nextSibling.dataset.out) : 0;
+                    sum += kaelteerzeuger; // Foerderung Kaelteerzeuger addieren
+                }
+            }
+            // Püfen ob ein Item gefunden wurde
+            if (sum > 0) {
+                let proz = outputfields[i].dataset.inputproz;
+                sum = sum * proz; 
+            } else {
+                err = true;
+                sum = "Bitte zuerst Kälteerzueger auswählen";
+            }
+            set_output(sum, outputfields[i], err);
         }
     }
 }

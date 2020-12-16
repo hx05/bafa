@@ -1,3 +1,6 @@
+// Blöcke zur auswahl des Kälteerzeugers
+// Zuletzt bearbeitet am 14.12.20
+
 function create_block () {
     let blocks = document.formcalcbafa.getElementsByTagName('fieldset');
     let num_blocks = blocks.length
@@ -123,10 +126,10 @@ function add_block (blockid, new_block, max) {
     if (document.getElementsByName('kaelteerzeuger')[0]) {
         let output = 0;
         let outputfield = document.getElementsByName('kaelteerzeuger')[0].nextElementSibling.nextElementSibling;
-        let oldvalue = outputfield.dataset.out;
-        if (!oldvalue) oldvalue = 0;
+        //let oldvalue = outputfield.dataset.out;
+        //if (!oldvalue) oldvalue = 0;
         let err = false;
-        set_output(output, oldvalue, outputfield, err); 
+        set_output(output, outputfield, err); 
     };
     let blocks = block_dom.getElementsByTagName('div').length;
     if (blocks > max) {

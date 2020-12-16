@@ -1,3 +1,7 @@
+// Generierung der Tabellen für die Komponentenauswahl
+// Zuletzt bearbeitet am 16.12.20
+
+
 // Prüfen ob eine Tabelle im html-code bereits angelegt ist
 function create_tables () {
     
@@ -157,11 +161,7 @@ function init_table (table) {
                 label.className = "containerBox";
 
                 let inputcheck = document.createElement('input');
-                //inputcheck.id = "tableoptions";
                 inputcheck.type = "checkbox";
-                //inputcheck.name = cleartext(Table.option[i][j][0]);
-
-                //inputcheck.dataset.calc = Table.option[i][j][1];
 
                 inputcheck.onchange = function checkbox_checked () {
                     if (this.checked) {
@@ -169,8 +169,8 @@ function init_table (table) {
                         calc_option ();
                     } else {
                         let outputfield = document.getElementById(cleartext(Table.option[i][j][0]));
-                        let oldvalue = Number(outputfield.dataset.out);
-                        set_output(0, oldvalue, outputfield, false);
+                        //let oldvalue = Number(outputfield.dataset.out);
+                        set_output(0, outputfield, false);
                         this.parentNode.removeChild(this.parentNode.lastChild);
                     }
                 };
@@ -190,7 +190,7 @@ function init_table (table) {
 }
 
 function create_outputfields (element, data) {
-
+    let items = data[4];
     let text = data[3];
     let calc_data = data[1]
     let div = document.createElement('div');
@@ -204,6 +204,7 @@ function create_outputfields (element, data) {
     // Ausgabe
     inOutput = document.createElement('output');        // Ausgabefeld erstellen
     inOutput.dataset.inputproz = calc_data;
+    inOutput.dataset.items = items;
     inOutput.className = 'ausgabe';
     inOutput.style.color = 'green';
     inOutput.id = cleartext(data[0]);
@@ -223,17 +224,13 @@ function num_table_rows(tableRows) {
 
 // Spalte loeschen
 function remove_row(startpoint) {
-
     let tr = startpoint.parentNode.parentNode
     let tbody = tr.parentNode;
 
     // Evtl. eingegebene Werte loeschen
-    let output = 0;
     let outputfield = startpoint.parentNode.previousElementSibling.lastChild.lastChild;
-    let oldvalue = outputfield.dataset.out;
-    if (!oldvalue) oldvalue = 0;
     let err = false;
-    set_output(output, oldvalue, outputfield, err);
+    set_output(0, outputfield, err);
 
     /*$(tr).animate({  // Animieren und loeschen der Zeile
         padding: '0px',
@@ -254,6 +251,7 @@ function remove_row(startpoint) {
         thead.style.display = 'none';
         table.appendChild(thead);       // Tabellenkopf ausblenden wenn keine Zeilen mehr da sind
     }
+    calc_option();
 }
 
 
@@ -263,19 +261,11 @@ function add_row(entry) {
     let table_dom_Add = entry.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
     let TableAdd = this[table_dom_Add.id];
 
-    // entfällt wegen Umstellung auf Listengenerierung durch Javascript
-    //let table_dom_Add = entry.parentNode.parentNode.parentNode.parentNode;
-    //let astS= document.getElementById('select' + table_dom_Add.id); // Auswahlliste suchen
-    //let SelIn = astS.options[astS.selectedIndex].text;              // Text der ausgewaehlten Zeile speichern
-    //let SelInV = astS.options[astS.selectedIndex].value;            // Wert der ausgewaehlten Zeile speichern
-
     // Aus der Javascript Funktion create_lists
     let SelIn = entry.innerHTML;
     let SelInV = entry.dataset.value;
 
-
     let tableBody = table_dom_Add.getElementsByTagName('tbody')[0];
-
 
     // Nummerierung der Zeilen
     let row_num = tableBody.getElementsByTagName('tr').length;
@@ -336,7 +326,7 @@ function add_row(entry) {
     newButton.type = 'Button';
     newButton.value = 'entfernen';
     newButton.className = 'clearbutton';
-    newButton.setAttribute('onClick', 'remove_row(this);' ); // Loeschfunktion
+    newButton.setAttribute('onClick', 'remove_row(this);'); // Loeschfunktion
     colDel.appendChild(newButton);  // Neuer Button hinten anhaengen
     
     newRow.appendChild(colDel);          // Loeschpalte in Tabelleneintrag einfeugen
@@ -467,7 +457,7 @@ function create_lists () {
     }
 
     function closeAllSelect(elmnt) {
-        //debugger;
+  
         /* A function that will close all select boxes in the document,
         except the current select box: */
         var x, y, i, arrNo = [];
