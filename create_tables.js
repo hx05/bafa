@@ -1,10 +1,10 @@
 // Generierung der Tabellen für die Komponentenauswahl
-// Zuletzt bearbeitet am 16.12.20
+// Zuletzt bearbeitet am 11.01.21
 
 
 // Prüfen ob eine Tabelle im html-code bereits angelegt ist
-function create_tables () {
-    
+function create_tables() {
+
     let tables = document.formcalcbafa.getElementsByTagName('table');
     let num_tables = tables.length
 
@@ -13,7 +13,7 @@ function create_tables () {
         let Table_Data = this[tables[i].id];        // Tabellenid auf Objekt referenzieren
         if (Table_Data.name) {                      // Ist ein Name in der Refferenz vorhanden?
             if (!tables[i].className) {             // Klasse noch nicht definiert
-            init_table (tables[i]);
+                init_table(tables[i]);
             }
         }
     }
@@ -21,8 +21,8 @@ function create_tables () {
 
 
 // Tabelle erstellen
-function init_table (table) {
-                         
+function init_table(table) {
+
     let Table = this[table.id];                             // Tabellenid auf Objekt referenzieren
 
 
@@ -30,13 +30,13 @@ function init_table (table) {
     let div = document.createElement('div');
     div.className = 'custom-select';
 
-    let select = document.createElement('select');         
+    let select = document.createElement('select');
     select.id = 'select' + table.id;
     select.setAttribute('onchange', 'if (this.selectedIndex) add_row(this.parentNode);');
 
     let option = document.createElement('option');
     option.value = '';
-    option.appendChild(document.createTextNode('--- ' +and_or(Table.name)+ ' hinzufügen ---'));
+    option.appendChild(document.createTextNode('--- ' + and_or(Table.name) + ' hinzufügen ---'));
     select.appendChild(option);
     for (let i = 0; i < Table.artikel.length; i++) {
         option = document.createElement('option');
@@ -69,7 +69,7 @@ function init_table (table) {
     table_dom.appendChild(food);
 
 
-    // colgruop ersten 14.12.20 sieht ohne genau so aus im aktuellen Chrome, fliegt raus weil 'width' veraltet...
+    // colgruop 14.12.20 sieht im aktuellen Chrome ohne genau so aus, fliegt raus weil 'width' veraltet...
     //let colg = document.createElement('colgroup');
 
     //let col1 = document.createElement('col');
@@ -87,25 +87,25 @@ function init_table (table) {
 
     // Tabellenkopf erstellen
     let trhead = document.createElement('tr');
-    
+
     let th1 = document.createElement('th');
-    
+
     // Spaltenüberschrift für Nummerierung verstecken 
     th1.style.display = "none";
 
 
-    let textnr1 = document.createTextNode ('Nr.');
+    let textnr1 = document.createTextNode('Nr.');
     th1.appendChild(textnr1);
     trhead.appendChild(th1);
 
     th2 = document.createElement('th');
-    
+
 
     if (Table.hilfe) { // Ist Hilfetext vorhanden Tooltipp erstellen
-        init_help (th2, table.id, Table.hilfe);
+        init_help(th2, table.id, Table.hilfe);
     }
 
-    let textnr2 = document.createTextNode (Table.name);
+    let textnr2 = document.createTextNode(Table.name);
     th2.appendChild(textnr2);
     trhead.appendChild(th2);
 
@@ -122,10 +122,10 @@ function init_table (table) {
     let fieldtable = document.createElement('fieldset');
     fieldtable.className = 'fieldtableAnlage';
 
-    
+
     tableBody = document.createElement('tbody');
     table_dom.appendChild(tableBody);
-    
+
 
 
 
@@ -143,6 +143,7 @@ function init_table (table) {
 
             // Beschreibung
             let divdes = document.createElement('div');
+            divdes.className = "haupttext";
             let text = document.createTextNode(Table.option[i][0]);
             divdes.appendChild(text);
             divdes.name = cleartext(Table.option[i][0]);
@@ -163,13 +164,12 @@ function init_table (table) {
                 let inputcheck = document.createElement('input');
                 inputcheck.type = "checkbox";
 
-                inputcheck.onchange = function checkbox_checked () {
+                inputcheck.onchange = function checkbox_checked() {
                     if (this.checked) {
-                        create_outputfields (this, Table.option[i][j]);
-                        calc_option ();
+                        create_outputfields(this, Table.option[i][j]);
+                        calc_option();
                     } else {
                         let outputfield = document.getElementById(cleartext(Table.option[i][j][0]));
-                        //let oldvalue = Number(outputfield.dataset.out);
                         set_output(0, outputfield, false);
                         this.parentNode.removeChild(this.parentNode.lastChild);
                     }
@@ -186,13 +186,15 @@ function init_table (table) {
         }
 
     }
-    
+
 }
 
-function create_outputfields (element, data) {
-    let items = data[4];
-    let text = data[3];
+function create_outputfields(element, data) {
     let calc_data = data[1]
+    //let lenght = data[2];
+    let text = data[3];
+    let items = data[4];
+    
     let div = document.createElement('div');
 
     // Beschreibung
@@ -200,7 +202,7 @@ function create_outputfields (element, data) {
     text = document.createTextNode(text);               // Beschreibung einfuegen
     inOut.appendChild(text);
     div.appendChild(inOut);                             // Ausgabe in Beschreibungstext einfuegen
-    
+
     // Ausgabe
     inOutput = document.createElement('output');        // Ausgabefeld erstellen
     inOutput.dataset.inputproz = calc_data;
@@ -216,8 +218,8 @@ function create_outputfields (element, data) {
 
 // Tabellen Spalten nummerieren
 function num_table_rows(tableRows) {
-    for(let i = 0; i < tableRows.length; i++) {
-        tableRows[i].getElementsByTagName('td')[0].innerHTML = (i+1);
+    for (let i = 0; i < tableRows.length; i++) {
+        tableRows[i].getElementsByTagName('td')[0].innerHTML = (i + 1);
     }
 }
 
@@ -269,12 +271,12 @@ function add_row(entry) {
 
     // Nummerierung der Zeilen
     let row_num = tableBody.getElementsByTagName('tr').length;
-    if (row_num) {                                      
+    if (row_num) {
         num_table_rows(tableBody.getElementsByTagName("tr"));
     } else {
         table_dom_Add.getElementsByTagName('thead')[0].style.display = 'table-header-group'; // Tabellenkopf sichtbar machen
     }
-    row_num ++;
+    row_num++;
 
 
     // Eintrag erstellen
@@ -284,12 +286,12 @@ function add_row(entry) {
 
     // Spalte für Nummerierung verstecken 
     colNum.style.display = "none";
-    
+
     let text = document.createTextNode(row_num);
     colNum.appendChild(text);
     let colNumIn = document.createElement('input');
     colNumIn.type = 'hidden';
-    
+
     colNumIn.id = table_dom_Add.id;
     colNumIn.value = row_num;
     colNum.appendChild(colNumIn); // Identifizerung der Nummernsplate einfuegen
@@ -307,28 +309,28 @@ function add_row(entry) {
     MainOut.appendChild(text);          // Text in Ausgabe einfuegem   
     newMain.appendChild(MainOut);       // Ausgabe in Haupttext einfuegen
     colIn.appendChild(newMain);         // Haupttext in Inputspalte einfuegen
-    
-    
-    for (let a = 0; a< TableAdd.artikel.length; a++) {  // Schleife je Artikel
+
+
+    for (let a = 0; a < TableAdd.artikel.length; a++) {  // Schleife je Artikel
 
         if (SelInV == cleartext(TableAdd.artikel[a][0])) {
-        let getitfrom = TableAdd.artikel[a];
-        inseret_fields (colIn, getitfrom, table_dom_Add.id);
-        newRow.appendChild(colIn);                      // Inputspalte in Tabelleneintrag einfeugen
+            let getitfrom = TableAdd.artikel[a];
+            inseret_fields(colIn, getitfrom, table_dom_Add.id);
+            newRow.appendChild(colIn);                      // Inputspalte in Tabelleneintrag einfeugen
         }
     }
-        
+
 
     let colDel = document.createElement('td'); // Spalte fuer Loeschfunktion erstellen
 
-    
+
     let newButton = document.createElement('input');  // Neuer Button "loeschen"
     newButton.type = 'Button';
     newButton.value = 'entfernen';
     newButton.className = 'clearbutton';
     newButton.setAttribute('onClick', 'remove_row(this);'); // Loeschfunktion
     colDel.appendChild(newButton);  // Neuer Button hinten anhaengen
-    
+
     newRow.appendChild(colDel);          // Loeschpalte in Tabelleneintrag einfeugen
     tableBody.appendChild(newRow);      // Tabelleneintrag in tbody einfeugen
 
@@ -336,128 +338,67 @@ function add_row(entry) {
 }
 
 
-// Felder einfuegen
-function inseret_fields (inseretin, getitfrom, id_from) {
-    // Variablen Initialisieren
-    let textunit; let textdes; let maxlength; let helptext; let newDes; let desOut; let text; let newIn; let inIn; let inOut; let minmax; let calc;
-    let fields = getitfrom.length;
-
-    for (let p = 1; p < fields; p++) {        // Schleife je Feld
-
-        textunit = getitfrom[p][0];
-        textdes = getitfrom[p][1];
-        maxlength = getitfrom[p][2];
-        helptext = getitfrom[p][3];
-        minmax = getitfrom[p][4];
-        calc = getitfrom[p][5];
-        fieldname = getitfrom[p][6];
-
-        // Beschreibung vorne
-        newDes = document.createElement('p');         // Textfeld fuer Beschreibung erstellen
-        newDes.className = 'label';
-        desOut = document.createElement('output');      // Ausgabefeld erstellen
-
-        if (helptext) { // Ist Hilfetext vorhanden Tooltipp erstellen
-            init_help (desOut, id_from, helptext);
-        }
-
-        text = document.createTextNode(textunit);
-        desOut.appendChild(text);                       // Text in Ausgabe einfuegen
-        newDes.appendChild(desOut);                     // Ausgabe in Beschreibungstext einfuegen
-
-        inseretin.appendChild(newDes);                      // Beschreibungstext in Inputspalte
-
-
-        // Eingabe
-        newIn = document.createElement('p');          // Textfeld fuer Eingabe erstellen
-        newIn.className = "feld";
-        inIn = document.createElement('input');         // Eingabefeld erstellen
-        inIn.maxlength = maxlength;
-        inIn.className = "inputKlein numericOnly";
-        inIn.type = 'text';
-        inIn.name = fieldname;
-        inIn.setAttribute('onInput', 'calc(this); calc_option()');
-        inIn.dataset.minmax = minmax;
-        inIn.dataset.calc = calc;
-        newIn.appendChild(inIn);                        // Neues Eingabefeld anhaengen
-
-
-        // Beschreibung hinten
-        inOut = document.createElement('output');        // Ausgabefeld erstellen
-        text = document.createTextNode(textdes);
-        inOut.appendChild(text);                        // Text in Ausgabe einfuegem
-        newIn.appendChild(inOut);                       // Ausgabe in Beschreibungstext einfuegen
-
-        // Ausgabe
-        inOutput = document.createElement('output');        // Ausgabefeld erstellen
-        inOutput.className = "ausgabe";
-        newIn.appendChild(inOutput);                       // Ausgabe in Beschreibungstext einfuegen
-
-        inseretin.appendChild(newIn);                   // Eingabefeld in Inputspalte einfuegen
-    }
-}
-
-function create_lists () {
+function create_lists() {
     let open = false;
     // Auswahlliste
     var x, i, j, selElmnt, a, b, c;
     /* Look for any elements with the class "custom-select": */
     x = document.getElementsByClassName("custom-select");
     for (i = 0; i < x.length; i++) {
-    selElmnt = x[i].getElementsByTagName("select")[0];
-    /* For each element, create a new DIV that will act as the selected item: */
-    a = document.createElement("DIV");
-    a.setAttribute("class", "select-selected");
-    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-    //a.dataset.value = selElmnt.options[selElmnt.selectedIndex].value;
-    x[i].appendChild(a);
-    /* For each element, create a new DIV that will contain the option list: */
-    b = document.createElement("DIV");
-    b.setAttribute("class", "select-items select-hide");
-    for (j = 1; j < selElmnt.length; j++) {
-        /* For each option in the original select element,
-        create a new DIV that will act as an option item: */
-        c = document.createElement("DIV");
-        c.innerHTML = selElmnt.options[j].innerHTML;
-        c.dataset.value = selElmnt.options[j].value;
-        c.addEventListener("click", function(e) {
-            /* When an item is clicked, update the original select box,
-            and the selected item: */
-            var y, i, k, s, h;
-            s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-            h = this.parentNode.previousSibling;
-            for (i = 0; i < s.length; i++) {
-                if (s.options[i].innerHTML == this.innerHTML) {
-                    s.selectedIndex = i;
-                    h.innerHTML = this.innerHTML;
-                    //h.dataset.value = this.value;
-                    y = this.parentNode.getElementsByClassName("same-as-selected");
-                    for (k = 0; k < y.length; k++) {
-                        y[k].removeAttribute("class");
+        selElmnt = x[i].getElementsByTagName("select")[0];
+        /* For each element, create a new DIV that will act as the selected item: */
+        a = document.createElement("DIV");
+        a.setAttribute("class", "select-selected");
+        a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+        //a.dataset.value = selElmnt.options[selElmnt.selectedIndex].value;
+        x[i].appendChild(a);
+        /* For each element, create a new DIV that will contain the option list: */
+        b = document.createElement("DIV");
+        b.setAttribute("class", "select-items select-hide");
+        for (j = 1; j < selElmnt.length; j++) {
+            /* For each option in the original select element,
+            create a new DIV that will act as an option item: */
+            c = document.createElement("DIV");
+            c.innerHTML = selElmnt.options[j].innerHTML;
+            c.dataset.value = selElmnt.options[j].value;
+            c.addEventListener("click", function (e) {
+                /* When an item is clicked, update the original select box,
+                and the selected item: */
+                var y, i, k, s, h;
+                s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                h = this.parentNode.previousSibling;
+                for (i = 0; i < s.length; i++) {
+                    if (s.options[i].innerHTML == this.innerHTML) {
+                        s.selectedIndex = i;
+                        h.innerHTML = this.innerHTML;
+                        //h.dataset.value = this.value;
+                        y = this.parentNode.getElementsByClassName("same-as-selected");
+                        for (k = 0; k < y.length; k++) {
+                            y[k].removeAttribute("class");
+                        }
+                        this.setAttribute("class", "same-as-selected");
+                        add_row(this);
+                        break;
                     }
-                    this.setAttribute("class", "same-as-selected");
-                    add_row(this);
-                    break;
                 }
-            }
-            h.click();
+                h.click();
+            });
+            b.appendChild(c);
+        }
+        x[i].appendChild(b);
+        a.addEventListener("click", function (e) {
+            /* When the select box is clicked, close any other select boxes,
+            and open/close the current select box: */
+            e.stopPropagation();
+            closeAllSelect(this);
+            open = true;
+            this.nextSibling.classList.toggle("select-hide");
+            this.classList.toggle("select-arrow-active");
         });
-        b.appendChild(c);
-    }
-    x[i].appendChild(b);
-    a.addEventListener("click", function(e) {
-        /* When the select box is clicked, close any other select boxes,
-        and open/close the current select box: */
-        e.stopPropagation();
-        closeAllSelect(this);
-        open = true;
-        this.nextSibling.classList.toggle("select-hide");
-        this.classList.toggle("select-arrow-active");
-    });
     }
 
     function closeAllSelect(elmnt) {
-  
+
         /* A function that will close all select boxes in the document,
         except the current select box: */
         var x, y, i, arrNo = [];
@@ -465,17 +406,17 @@ function create_lists () {
         y = document.getElementsByClassName("select-selected");
         for (i = 0; i < y.length; i++) {
             if (elmnt == y[i]) {
-            arrNo.push(i)
+                arrNo.push(i)
             } else {
-            y[i].classList.remove("select-arrow-active");
+                y[i].classList.remove("select-arrow-active");
             }
         }
         for (i = 0; i < x.length; i++) {
             if (arrNo.indexOf(i)) {
-            x[i].classList.add("select-hide");
+                x[i].classList.add("select-hide");
             }
         }
-    
+
     }
 
     /* If the user clicks anywhere outside the select box,
