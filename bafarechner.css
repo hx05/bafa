@@ -1,3 +1,6 @@
+/*  Änderung der Formatierung für den Bafa-Rechner
+Zuletzt bearbeitet am 11.01.21 */
+
 body {
   -webkit-font-smoothing: antialiased;
   text-align: left;
@@ -366,7 +369,7 @@ input[type=button], input[type=submit], input[type=reset] {
   color: white;
   padding: 6px 10px;
   text-decoration: none;
-  margin: 4px 2px;
+  margin: 2rem 0.5rem;
   cursor: pointer;
   border-radius: 100px;
   line-height: 1.25;
